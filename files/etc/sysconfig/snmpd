@@ -1,0 +1,8 @@
+###################################
+### MANAGED BY PUPPET ['snmpd'] ###
+### DON'T CHANGE THIS FILE HERE ###
+### DO IT ON THE PUPPET MASTER! ###
+###################################
+
+# snmpd command line options
+OPTIONS="-LS0-5d -Lf /dev/null -p /var/run/snmpd.pid"
