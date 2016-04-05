@@ -1,0 +1,5 @@
+/.project
+.kitchen/
+.tmp/
+.librarian/
+Puppetfile.lock
