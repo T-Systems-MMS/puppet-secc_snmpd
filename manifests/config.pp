@@ -24,7 +24,35 @@ class secc_snmpd::config inherits secc_snmpd {
     source  => 'puppet:///modules/secc_snmpd/etc/sysconfig/snmpd',
   }
 
-  #generation of snmpd.conf (template) if password & passphrase are validated
+  exec { 'stop_snmpd':
+    subscribe   => File['/etc/snmp/snmpd.conf'],
+    refreshonly => true,
+    command     => "/sbin/service snmpd stop",
+    notify      => [
+      Class['secc_snmpd::service'],
+      Exec['delete_usmUser']
+    ],
+  }
+
+  exec { 'delete_usmUser':
+    subscribe   => File['/etc/snmp/snmpd.conf'],
+    refreshonly => true,
+    command     => "/bin/grep -v usmUser /var/lib/net-snmp/snmpd.conf  > /var/lib/net-snmp/snmpd.conf_new",
+    notify      => [
+      Class['secc_snmpd::service'],
+      Exec['move_snmpd.conf']
+    ],
+  }
+
+  exec { 'move_snmpd.conf':
+    subscribe   => File['/etc/snmp/snmpd.conf'],
+    refreshonly => true,
+    command     => "/bin/mv /var/lib/net-snmp/snmpd.conf_new /var/lib/net-snmp/snmpd.conf",
+    notify      => [
+      Class['secc_snmpd::service']
+    ],
+  }
+
   concat { '/etc/snmp/snmpd.conf':
     mode    => '0600',
     group   => 'root',
@@ -43,8 +71,5 @@ class secc_snmpd::config inherits secc_snmpd {
     snmpd_v3_password   => $snmpd_v3_password,
     snmpd_v3_passphrase => $snmpd_v3_passphrase,
   }
-  secc_snmpd::user{ "aresr":
-    snmpd_v3_password   => "asda0ASSD!!!!",
-    snmpd_v3_passphrase => "asda0ASSD!!!!a",
-  }
+
 }

@@ -2,8 +2,6 @@ define secc_snmpd::user (
   $snmpd_v3_password,
   $snmpd_v3_passphrase,
 ) {
-  include ::secc_snmpd
-
   # verification password length
   if size($snmpd_v3_password) < '8' {
     warning('Password must have 8 or more than 8 characters!')
@@ -46,9 +44,6 @@ define secc_snmpd::user (
   if $_securitycheck == false {
     fail("Security parameters for Password not met!")
   }
-
-  # creates user
-  # TODO: write users to /var/lib/net-snmp/snmpd.conf, problem: how to change password?
 
   concat::fragment { "snmpd.conf_access_${title}":
     target  => '/etc/snmp/snmpd.conf',
