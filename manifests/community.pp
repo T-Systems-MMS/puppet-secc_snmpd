@@ -25,7 +25,7 @@ define secc_snmpd::community (
   concat::fragment { "snmpd.conf_community_${$v2_community}_${v2_host}":
     target  => '/etc/snmp/snmpd.conf',
     content => "rocommunity ${$v2_community} ${v2_host}\n",
-    order   => 10,
+    order   => 05,
   }
 
 }

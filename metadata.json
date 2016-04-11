@@ -1,13 +1,23 @@
 {
   "author": "",
-  "dependencies": [],
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib"
+    },
+    {
+      "name": "puppetlabs/concat"
+    }
+  ],
   "license": "",
   "name": "secc_snmpd",
-  "operatingsystem_support": [],
+  "operatingsystem_support": [
+    "CentOS7",
+    "RHEL7"
+  ],
   "project_page": "",
   "requirements": [],
   "source": "",
   "summary": "",
   "tags": [],
-  "version": "0.1.0"
+  "version": "1.0.4"
 }

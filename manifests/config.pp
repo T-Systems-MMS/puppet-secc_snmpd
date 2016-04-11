@@ -38,7 +38,7 @@ class secc_snmpd::config inherits secc_snmpd {
     }
 
     exec { 'stop_snmpd':
-      subscribe   => File['/etc/snmp/snmpd.conf'],
+      subscribe   => Concat['/etc/snmp/snmpd.conf'],
       refreshonly => true,
       command     => "/sbin/service snmpd stop",
       notify      => [
@@ -48,7 +48,7 @@ class secc_snmpd::config inherits secc_snmpd {
     }
 
     exec { 'delete_usmUser':
-      subscribe   => File['/etc/snmp/snmpd.conf'],
+      subscribe   => Concat['/etc/snmp/snmpd.conf'],
       refreshonly => true,
       command     => "/bin/grep -v usmUser /var/lib/net-snmp/snmpd.conf  > /var/lib/net-snmp/snmpd.conf_new",
       notify      => [
@@ -58,7 +58,7 @@ class secc_snmpd::config inherits secc_snmpd {
     }
 
     exec { 'move_snmpd.conf':
-      subscribe   => File['/etc/snmp/snmpd.conf'],
+      subscribe   => Concat['/etc/snmp/snmpd.conf'],
       refreshonly => true,
       command     => "/bin/mv /var/lib/net-snmp/snmpd.conf_new /var/lib/net-snmp/snmpd.conf",
       notify      => [
