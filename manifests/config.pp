@@ -17,9 +17,9 @@ class secc_snmpd::config (
       owner   => 'root',
       group   => 'root',
       path    => '/etc/snmp/snmptrapd.conf',
-      require => Class['snmpd::install'],
-      notify  => Class['snmpd::service'],
-      source  => 'puppet:///modules/snmpd/etc/snmp/snmptrap.conf',
+      require => Class['secc_snmpd::install'],
+      notify  => Class['secc_snmpd::service'],
+      source  => 'puppet:///modules/secc_snmpd/etc/snmp/snmptrap.conf',
     }
   }
 
@@ -29,9 +29,9 @@ class secc_snmpd::config (
     owner   => 'root',
     group   => 'root',
     path    => '/etc/sysconfig/snmpd',
-    require => Class['snmpd::install'],
-    notify  => Class['snmpd::service'],
-    source  => 'puppet:///modules/snmpd/etc/sysconfig/snmpd',
+    require => Class['secc_snmpd::install'],
+    notify  => Class['secc_snmpd::service'],
+    source  => 'puppet:///modules/secc_snmpd/etc/sysconfig/snmpd',
   }
 
   # verification password length
@@ -72,8 +72,8 @@ class secc_snmpd::config (
       mode    => '0600',
       owner   => 'root',
       group   => 'root',
-      require => Class['snmpd::install'],
-      notify  => Class['snmpd::service'],
+      require => Class['secc_snmpd::install'],
+      notify  => Class['secc_snmpd::service'],
     }
   }
 

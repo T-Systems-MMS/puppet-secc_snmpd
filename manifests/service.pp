@@ -1,4 +1,4 @@
-class secc_snmpd::service(
+class secc_snmpd::service (
   $snmpd_trap_enabled
 ) {
 
@@ -7,7 +7,7 @@ class secc_snmpd::service(
     hasrestart  => true,
     hasstatus   => true,
     enable      => true,
-    require     => Class['snmpd::install'],
+    require     => Class['secc_snmpd::install'],
   }
 
   if $snmpd_trap_enabled == true {
@@ -16,7 +16,7 @@ class secc_snmpd::service(
       hasrestart      => true,
       hasstatus       => true,
       enable          => true,
-      require         => Class['snmpd::install'],
+      require         => Class['secc_snmpd::install'],
     }
   }
 
