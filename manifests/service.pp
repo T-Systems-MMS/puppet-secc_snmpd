@@ -1,6 +1,4 @@
-class secc_snmpd::service (
-  $snmpd_trap_enabled
-) {
+class secc_snmpd::service inherits secc_snmpd {
 
   service { 'snmpd':
     ensure      => running,

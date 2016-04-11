@@ -10,31 +10,15 @@ class secc_snmpd (
   $snmpd_v3_user,
   $snmpd_v3_password,
   $snmpd_v3_passphrase,
-  $snmpd_trap_enabled = false,
-  $snmpd_v2_enabled = false,
+  $snmpd_trap_enabled = $secc_snmpd::params::snmpd_trap_enabled,
+  $snmpd_v2_enabled = $secc_snmpd::params::snmpd_v2_enabled,
   $snmpd_syslocation,
-  $snmpd_syscontact
-) {
+  $snmpd_syscontact,
+) inherits secc_snmpd::params {
 
-  $package_name    = 'net-snmp'
+  include secc_snmpd::install
 
-  class { 'secc_snmpd::install':
-    package_name    => $package_name,
-  }
+  include secc_snmpd::config
 
-  class { 'secc_snmpd::config':
-    service              => $service,
-    snmpd_communityhost  => $snmpd_communityhost,
-    snmpd_syslocation    => $snmpd_syslocation,
-    snmpd_syscontact     => $snmpd_syscontact,
-    snmpd_v3_user        => $snmpd_v3_user,
-    snmpd_v3_password    => $snmpd_v3_password,
-    snmpd_v3_passphrase  => $snmpd_v3_passphrase,
-    snmpd_trap_enabled   => $snmpd_trap_enabled,
-    snmpd_v2_enabled     => $snmpd_v2_enabled,
-  }
-
-  class { 'secc_snmpd::service':
-    snmpd_trap_enabled  => $snmpd_trap_enabled,
-  }
+  include secc_snmpd::service
 }

@@ -1,14 +1,4 @@
-class secc_snmpd::config (
-  $service,
-  $snmpd_communityhost,
-  $snmpd_syslocation,
-  $snmpd_syscontact,
-  $snmpd_v3_user,
-  $snmpd_v3_password,
-  $snmpd_v3_passphrase,
-  $snmpd_trap_enabled,
-  $snmpd_v2_enabled
-) {
+class secc_snmpd::config inherits secc_snmpd {
 
   if $snmpd_trap_enabled == true {
     file { '/etc/snmp/snmptrapd.conf':
@@ -34,11 +24,8 @@ class secc_snmpd::config (
     source  => 'puppet:///modules/secc_snmpd/etc/sysconfig/snmpd',
   }
 
-
   #generation of snmpd.conf (template) if password & passphrase are validated
-  file { '/etc/snmp/snmpd.conf':
-    ensure  => present,
-    content => template('secc_snmpd/etc/snmp/snmpd.conf.erb'),
+  concat { '/etc/snmp/snmpd.conf':
     mode    => '0600',
     group   => 'root',
     owner   => 'root',
@@ -46,8 +33,18 @@ class secc_snmpd::config (
     notify  => Class['secc_snmpd::service'],
   }
 
+  concat::fragment { "snmpd.conf_base":
+    target  => '/etc/snmp/snmpd.conf',
+    content => template('secc_snmpd/etc/snmp/snmpd.conf.erb'),
+    order   => 01,
+  }
+
   secc_snmpd::user{ $snmpd_v3_user:
-  snmpd_v3_password   => $snmpd_v3_password,
-  snmpd_v3_passphrase => $snmpd_v3_passphrase,
+    snmpd_v3_password   => $snmpd_v3_password,
+    snmpd_v3_passphrase => $snmpd_v3_passphrase,
+  }
+  secc_snmpd::user{ "aresr":
+    snmpd_v3_password   => "asda0ASSD!!!!",
+    snmpd_v3_passphrase => "asda0ASSD!!!!a",
   }
 }
