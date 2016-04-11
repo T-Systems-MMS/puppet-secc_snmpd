@@ -18,7 +18,7 @@ Das Modul kann SNMP auf einem Linux System installieren und konfigurieren.
 ##Requirements - Abdeckung
 - SoC Requirements 1 wird in config.pp erfüllt.
 - SoC Requirements 2 wird in install.pp erfüllt.
-- SoC Requirements 3,4,5 werden in config.pp erfüllt.
+- SoC Requirements 3,4,5 werden in user.pp erfüllt.
 - SoC Requirement 7 erfüllt.
 
 ##Abweichungen
