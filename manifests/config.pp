@@ -38,43 +38,57 @@ class secc_snmpd::config (
   $snmpd_v3_password_length = size($snmpd_v3_password)
   if $snmpd_v3_password_length < '8' {
     warning('Password must have 8 or more than 8 characters!')
+    if $securitycheck == undef {
+      $securitycheck = false
+    }
   }
 
   # verification password composition
-  elsif $snmpd_v3_password =~ /(^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W))/ {
-    $snmpd_password_validated = true
-
-    # verification passphrase length
-    $snmpd_v3_passphrase_length = size($snmpd_v3_passphrase)
-
-    if $snmpd_v3_passphrase_length < '8' {
-      warning('Passphrase must have 8 or more than 8 characters!')
-    }
-
-    # verification passphrase composition
-    elsif $snmpd_v3_passphrase =~ /(^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W))/ {
-      $snmpd_passphrase_validated = true
-    }
-    else {
-      warning('Passphrase must contain [a-z],[A-Z],[0-9] characters and special characters!')
+  if !($snmpd_v3_password =~ /(^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W))/) {
+    warning('Password must contain [a-z],[A-Z],[0-9] characters and special characters!')
+    if $securitycheck == undef {
+      $securitycheck = false
     }
   }
-  else {
-    warning('Password must contain [a-z],[A-Z],[0-9] characters and special characters!')
+
+  # verification passphrase length
+  $snmpd_v3_passphrase_length = size($snmpd_v3_passphrase)
+  if $snmpd_v3_passphrase_length < '8' {
+    warning('Passphrase must have 8 or more than 8 characters!')
+    if $securitycheck == undef {
+      $securitycheck = false
+    }
+  }
+
+  # verification passphrase composition
+  if !($snmpd_v3_passphrase =~ /(^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W))/) {
+    warning('Passphrase must contain [a-z],[A-Z],[0-9] characters and special characters!')
+    if $securitycheck == undef {
+      $securitycheck = false
+    }
+  }
+
+  if $snmpd_v3_password == $snmpd_v3_passphrase {
+    warning('Password and Passphrase are identical!')
+    if $securitycheck == undef {
+      $securitycheck = false
+    }
+  }
+
+  if $securitycheck == false {
+    fail("Security parameters for Password not met!")
   }
 
   #generation of snmpd.conf (template) if password & passphrase are validated
-  if $snmpd_password_validated == true and $snmpd_passphrase_validated == true {
-    file { 'snmpd.conf':
-      ensure  => present,
-      content => template('snmpd/etc/snmp/snmpd.conf.erb'),
-      path    => '/etc/snmp/snmpd.conf',
-      mode    => '0600',
-      owner   => 'root',
-      group   => 'root',
-      require => Class['secc_snmpd::install'],
-      notify  => Class['secc_snmpd::service'],
-    }
+  file { 'snmpd.conf':
+    ensure  => present,
+    content => template('secc_snmpd/etc/snmp/snmpd.conf.erb'),
+    path    => '/etc/snmp/snmpd.conf',
+    mode    => '0600',
+    group   => 'root',
+    owner   => 'root',
+    require => Class['secc_snmpd::install'],
+    notify  => Class['secc_snmpd::service'],
   }
 
   # creates user with net-snmp-config system command
