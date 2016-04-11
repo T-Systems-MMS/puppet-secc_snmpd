@@ -33,7 +33,7 @@ Das Modul kann SNMP auf einem Linux System installieren und konfigurieren.
 - Eine Copy&Paste Übernahme in Projekte ist nicht möglich, aber die notwendigen Parameter sind anhand der Manifeste und Templates auslesbar.
 
 ##Reference
-- Anforderungen stammen aus SoC Requirements 3_45_SNMP.pdf
+- Anforderungen stammen aus [SoC Requirements 3_45_SNMP.pdf](https://psa-portal.telekom.de/intranet-ui/public/releases/documents.xhtml?style=normal&domain=56828&source=login#)
 
 ##Limitations
 - Modul wurde nur auf CentOS7 gestestet.

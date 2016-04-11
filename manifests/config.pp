@@ -80,10 +80,9 @@ class secc_snmpd::config (
   }
 
   #generation of snmpd.conf (template) if password & passphrase are validated
-  file { 'snmpd.conf':
+  file { '/etc/snmp/snmpd.conf':
     ensure  => present,
     content => template('secc_snmpd/etc/snmp/snmpd.conf.erb'),
-    path    => '/etc/snmp/snmpd.conf',
     mode    => '0600',
     group   => 'root',
     owner   => 'root',
@@ -92,10 +91,11 @@ class secc_snmpd::config (
   }
 
   # creates user with net-snmp-config system command
-  exec { 'create_v3_user':
-    path      => ["/usr/bin","/usr/sbin"],
-    command   => "net-snmp-config --create-snmpv3-user -ro -A ${snmpd_v3_password} -X ${snmpd_v3_passphrase} -a SHA -x AES ${snmpd_v3_user}",
-    unless    => "grep ${snmpd_v3_user} /var/lib/net-snmp/snmpd.conf",
+  file_line { 'create_v3_user':
+    path      => "/etc/snmp/snmpd.conf",
+    line      => "createUser ${snmpd_v3_user} SHA ${snmpd_v3_password} AES ${snmpd_v3_passphrase}",
+    match     => "^createUser ${snmpd_v3_user} SHA ${snmpd_v3_password} AES ${snmpd_v3_passphrase}",
     notify    => Service['snmpd'],
+    require   => File['/etc/snmp/snmpd.conf'],
   }
 }
