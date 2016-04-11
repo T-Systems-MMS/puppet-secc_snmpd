@@ -1,6 +1,12 @@
 class secc_snmpd::params {
-  $snmpd_trap_enabled = false
-  $snmpd_v2_enabled = false
+  $trap_enabled = false
+  $v2_enabled = false
+  $v3_enabled = true
+  $v2_community = undef
+  $v2_host = undef
+  $v3_user = undef
+  $v3_password = undef
+  $v3_passphrase = undef
 
   case $::operatingsystem {
     default: {

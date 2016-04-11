@@ -4,11 +4,6 @@
 #### DO IT ON THE PUPPET MASTER! ###
 ####################################
 
-<% if @snmpd_v2_enabled == true %>
-<% @snmpd_communityhost.each_line do |val| -%>rocommunity <%= val -%>
-<%- end %>
-<% end %>
-
 syscontact <%= @service %> <%= @snmpd_syscontact %>
 syslocation <%= @snmpd_syslocation %>
 
