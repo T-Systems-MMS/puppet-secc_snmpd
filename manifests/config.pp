@@ -42,6 +42,7 @@ class secc_snmpd::config inherits secc_snmpd {
     exec { 'delete_usmUser':
       refreshonly => true,
       command     => "/bin/grep -v usmUser /var/lib/net-snmp/snmpd.conf  > /var/lib/net-snmp/snmpd.conf_new",
+      onlyif      => "/bin/test -f /var/lib/net-snmp/snmpd.conf",
       notify      => [
         Class['secc_snmpd::service'],
         Exec['move_snmpd.conf']
@@ -51,6 +52,7 @@ class secc_snmpd::config inherits secc_snmpd {
     exec { 'move_snmpd.conf':
       refreshonly => true,
       command     => "/bin/mv /var/lib/net-snmp/snmpd.conf_new /var/lib/net-snmp/snmpd.conf",
+      onlyif      => "/bin/test -f /var/lib/net-snmp/snmpd.conf",
       notify      => [
         Class['secc_snmpd::service']
       ],
