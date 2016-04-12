@@ -16,6 +16,7 @@ class secc_snmpd (
   $trap_enabled = $secc_snmpd::params::trap_enabled,
   $syslocation,
   $syscontact,
+  $enforce_password_security = $secc_snmpd::params::enforce_password_security,
 ) inherits secc_snmpd::params {
   if $v2_enabled {
     warning("use of SNMPv2 is not recommended!")

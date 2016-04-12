@@ -1,14 +1,4 @@
 class secc_snmpd::config inherits secc_snmpd {
-  file { '/etc/sysconfig/snmpd':
-    ensure  => present,
-    mode    => '0644',
-    owner   => 'root',
-    group   => 'root',
-    path    => '/etc/sysconfig/snmpd',
-    require => Class['secc_snmpd::install'],
-    notify  => Class['secc_snmpd::service'],
-    source  => 'puppet:///modules/secc_snmpd/etc/sysconfig/snmpd',
-  }
 
   concat { '/etc/snmp/snmpd.conf':
     mode    => '0600',

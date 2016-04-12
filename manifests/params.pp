@@ -7,6 +7,7 @@ class secc_snmpd::params {
   $v3_user = undef
   $v3_password = undef
   $v3_passphrase = undef
+  $enforce_password_security = false
 
   case $::operatingsystem {
     default: {
