@@ -2,6 +2,7 @@ define secc_snmpd::user (
   $v3_password,
   $v3_passphrase,
 ) {
+  # Req4,5: Password security
   # verification password length
   if size($v3_password) < '8' {
     warning('Password must have 8 or more than 8 characters!')
@@ -45,11 +46,13 @@ define secc_snmpd::user (
     fail("Security parameters for Password not met!")
   }
 
+  # Req6: no additional prov needed, only read-only
   concat::fragment { "snmpd.conf_access_${title}":
     target  => '/etc/snmp/snmpd.conf',
     content => "rouser ${title}\n",
     order   => 10,
   }
+  # Req2: use SHA
   concat::fragment { "snmpd.conf_user_${title}":
     target  => '/etc/snmp/snmpd.conf',
     content => "createUser ${title} SHA ${v3_password} AES ${v3_passphrase}\n",
@@ -57,3 +60,5 @@ define secc_snmpd::user (
   }
 
 }
+
+# TODO: add class to batch create additional users from foreman data

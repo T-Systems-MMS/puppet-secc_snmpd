@@ -19,6 +19,7 @@ class secc_snmpd (
   $enforce_password_security = $secc_snmpd::params::enforce_password_security,
 ) inherits secc_snmpd::params {
   if $v2_enabled {
+    # Req1: warning if v2 enabled
     warning("use of SNMPv2 is not recommended!")
 
     if $v2_community == undef {

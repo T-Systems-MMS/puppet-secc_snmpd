@@ -2,6 +2,7 @@ define secc_snmpd::community (
   $v2_community,
   $v2_host,
 ) {
+  # Req4,5: Password security
   # verification password length
   if size($v2_community) < '8' {
     warning('Community must have 8 or more than 8 characters!')
@@ -29,3 +30,5 @@ define secc_snmpd::community (
   }
 
 }
+
+# TODO: add class to batch create additional communities from foreman data

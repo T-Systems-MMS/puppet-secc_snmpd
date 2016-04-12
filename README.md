@@ -1,4 +1,4 @@
-# SNMP Module - Version 1.0.3
+# SNMP Module - Version 1.0.4
 
 ####Table of Contents
 
@@ -16,14 +16,16 @@ Dieses Modul bietet eine teilweise Abdeckung der SoC Anforderungen für SNMP unt
 Das Modul kann SNMP auf einem Linux System installieren und konfigurieren.
 
 ##Requirements - Abdeckung
-- SoC Requirements 1 wird in config.pp erfüllt.
-- SoC Requirements 2 wird in install.pp erfüllt.
-- SoC Requirements 3,4,5 werden in user.pp erfüllt.
+- SoC Requirement 1 wird in init.pp erfüllt.
+- SoC Requirement 2,6 wird in user.pp erfüllt.
+- Soc Requirement 3 wird in config.pp erfüllt
+- Soc Requirement 4,5 wird in user.pp/community.pp erfüllt
 - SoC Requirement 7 erfüllt.
 
 ##Abweichungen
-- SoC Requirements 1 kann mit dem Parameter $snmpd_v2_enabled = true umgangen werden.
-- SoC  Requirements 6 und 8 müssen geprüft werden.
+- SoC Requirement 1 kann mit dem Parameter $v2_enabled = true umgangen werden
+- Soc Requirement 4,5 kann mit dem Parameter $enforce_password_security = false umgangen werden
+- SoC Requirement 8 müssen geprüft werden.
 
 ##Usage
 - Die Einsatzfähigkeit des Moduls muss noch druch AMCS SecC überprüft werden.
@@ -33,7 +35,7 @@ Das Modul kann SNMP auf einem Linux System installieren und konfigurieren.
 - Eine Copy&Paste Übernahme in Projekte ist nicht möglich, aber die notwendigen Parameter sind anhand der Manifeste und Templates auslesbar.
 
 ##Reference
-- Anforderungen stammen aus [SoC Requirements 3_45_SNMP.pdf](https://psa-portal.telekom.de/intranet-ui/public/releases/documents.xhtml?style=normal&domain=56828&source=login#)
+- Anforderungen stammen aus [SoC Requirements 3_45_SNMP_v2.0.pdf](https://psa-portal.telekom.de/intranet-ui/public/releases/documents.xhtml?style=normal&domain=56828&source=login#)
 
 ##Limitations
 - Modul wurde nur auf CentOS7 gestestet.
@@ -47,3 +49,4 @@ Das Modul kann SNMP auf einem Linux System installieren und konfigurieren.
 - 1.0.1 fix of regex expression for password verification 
 - 1.0.2 fixed encoding from MD5 to AES and SHA
 - 1.0.3 fixed deactivation snmp v1 and v2
+- 1.0.4 rewrite of some parts, added user and community functions, fixed SNMPv3 support

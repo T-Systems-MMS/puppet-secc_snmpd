@@ -8,6 +8,7 @@ class secc_snmpd::config inherits secc_snmpd {
     notify  => Class['secc_snmpd::service'],
   }
 
+  # Req3: no default user/community
   concat::fragment { "snmpd.conf_base":
     target  => '/etc/snmp/snmpd.conf',
     content => template('secc_snmpd/etc/snmp/snmpd.conf.erb'),
