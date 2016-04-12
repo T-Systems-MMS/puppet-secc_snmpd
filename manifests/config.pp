@@ -18,7 +18,7 @@ class secc_snmpd::config inherits secc_snmpd {
   if $v2_enabled {
     secc_snmpd::community{ "${$v2_community}_${v2_host}":
       v2_community => $v2_community,
-      v2_host => $v2_host
+      v2_host      => $v2_host
     }
   }
 
@@ -32,6 +32,7 @@ class secc_snmpd::config inherits secc_snmpd {
       subscribe   => Concat['/etc/snmp/snmpd.conf'],
       refreshonly => true,
       command     => "/sbin/service snmpd stop",
+      onlyif      => "/bin/test -f /var/lib/net-snmp/snmpd.conf",
       notify      => [
         Class['secc_snmpd::service'],
         Exec['delete_usmUser']
@@ -39,7 +40,6 @@ class secc_snmpd::config inherits secc_snmpd {
     }
 
     exec { 'delete_usmUser':
-      subscribe   => Concat['/etc/snmp/snmpd.conf'],
       refreshonly => true,
       command     => "/bin/grep -v usmUser /var/lib/net-snmp/snmpd.conf  > /var/lib/net-snmp/snmpd.conf_new",
       notify      => [
@@ -49,7 +49,6 @@ class secc_snmpd::config inherits secc_snmpd {
     }
 
     exec { 'move_snmpd.conf':
-      subscribe   => Concat['/etc/snmp/snmpd.conf'],
       refreshonly => true,
       command     => "/bin/mv /var/lib/net-snmp/snmpd.conf_new /var/lib/net-snmp/snmpd.conf",
       notify      => [
