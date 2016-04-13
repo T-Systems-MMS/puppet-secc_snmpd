@@ -29,31 +29,34 @@ class secc_snmpd::config inherits secc_snmpd {
     }
 
     exec { 'stop_snmpd':
-      subscribe   => Concat['/etc/snmp/snmpd.conf'],
-      refreshonly => true,
-      command     => "/sbin/service snmpd stop",
-      onlyif      => "/bin/test -f /var/lib/net-snmp/snmpd.conf",
-      notify      => [
+      subscribe       => Concat['/etc/snmp/snmpd.conf'],
+      refreshonly     => true,
+      path            => ['/usr/bin','/usr/sbin','/bin','/sbin'],
+      command         => "service snmpd stop",
+      onlyif          => "test -f /var/lib/net-snmp/snmpd.conf",
+      notify          => [
         Class['secc_snmpd::service'],
         Exec['delete_usmUser']
       ],
     }
 
     exec { 'delete_usmUser':
-      refreshonly => true,
-      command     => "/bin/grep -v usmUser /var/lib/net-snmp/snmpd.conf  > /var/lib/net-snmp/snmpd.conf_new",
-      onlyif      => "/bin/test -f /var/lib/net-snmp/snmpd.conf",
-      notify      => [
+      refreshonly     => true,
+      path            => ['/usr/bin','/usr/sbin','/bin','/sbin'],
+      command         => "grep -v usmUser /var/lib/net-snmp/snmpd.conf > /var/lib/net-snmp/snmpd.conf_new",
+      onlyif          => "test -f /var/lib/net-snmp/snmpd.conf",
+      notify          => [
         Class['secc_snmpd::service'],
         Exec['move_snmpd.conf']
       ],
     }
 
     exec { 'move_snmpd.conf':
-      refreshonly => true,
-      command     => "/bin/mv /var/lib/net-snmp/snmpd.conf_new /var/lib/net-snmp/snmpd.conf",
-      onlyif      => "/bin/test -f /var/lib/net-snmp/snmpd.conf",
-      notify      => [
+      refreshonly     => true,
+      path            => ['/usr/bin','/usr/sbin','/bin','/sbin'],
+      command         => "mv /var/lib/net-snmp/snmpd.conf_new /var/lib/net-snmp/snmpd.conf",
+      onlyif          => "test -f /var/lib/net-snmp/snmpd.conf",
+      notify          => [
         Class['secc_snmpd::service']
       ],
     }
