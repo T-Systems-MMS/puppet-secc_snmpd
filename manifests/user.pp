@@ -4,7 +4,7 @@ define secc_snmpd::user (
 ) {
   # Req4,5: Password security
   # verification password length
-  if size($v3_password) < '8' {
+  if size($v3_password) < 8 {
     warning('Password must have 8 or more than 8 characters!')
     if $_securitycheck == undef {
       $_securitycheck = false
@@ -20,7 +20,7 @@ define secc_snmpd::user (
   }
 
   # verification passphrase length
-  if size($v3_passphrase) < '8' {
+  if size($v3_passphrase) < 8 {
     warning('Passphrase must have 8 or more than 8 characters!')
     if $_securitycheck == undef {
       $_securitycheck = false
