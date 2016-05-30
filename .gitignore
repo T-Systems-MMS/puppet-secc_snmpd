@@ -3,3 +3,4 @@
 .tmp/
 .librarian/
 Puppetfile.lock
+/.idea/
