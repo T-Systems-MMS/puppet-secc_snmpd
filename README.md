@@ -43,6 +43,7 @@ Das Modul kann SNMP auf einem Linux System installieren und konfigurieren.
 
 ##Development
 - Änderungen am Modul bitte über Git dokumentieren.
+- Ausführung von Tests: "bundler install", "bundler exec rake"
 
 ##Release Notes/Contributors/Etc **Optional**
 - Initialrelease
@@ -50,3 +51,4 @@ Das Modul kann SNMP auf einem Linux System installieren und konfigurieren.
 - 1.0.2 fixed encoding from MD5 to AES and SHA
 - 1.0.3 fixed deactivation snmp v1 and v2
 - 1.0.4 rewrite of some parts, added user and community functions, fixed SNMPv3 support
+- 1.0.6 Anforderungen aus [ASC-25] eingebaut, Tests geschrieben
