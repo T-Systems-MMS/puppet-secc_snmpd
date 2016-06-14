@@ -6,21 +6,23 @@
 
 class secc_snmpd (
   $service,
-  $v2_enabled = $secc_snmpd::params::v2_enabled,
-  $v2_community =  $secc_snmpd::params::v2_community,
-  $v2_host =  $secc_snmpd::params::v2_host,
-  $v3_enabled = $secc_snmpd::params::v3_enabled,
-  $v3_user =  $secc_snmpd::params::v3_user,
-  $v3_password = $secc_snmpd::params::v3_password,
-  $v3_passphrase = $secc_snmpd::params::v3_passphrase,
-  $trap_enabled = $secc_snmpd::params::trap_enabled,
   $syslocation,
   $syscontact,
+  $v2_enabled                = $secc_snmpd::params::v2_enabled,
+  $v2_community              = $secc_snmpd::params::v2_community,
+  $v2_host                   = $secc_snmpd::params::v2_host,
+  $v3_enabled                = $secc_snmpd::params::v3_enabled,
+  $v3_user                   = $secc_snmpd::params::v3_user,
+  $v3_password               = $secc_snmpd::params::v3_password,
+  $v3_passphrase             = $secc_snmpd::params::v3_passphrase,
+  $trap_enabled              = $secc_snmpd::params::trap_enabled,
   $enforce_password_security = $secc_snmpd::params::enforce_password_security,
 ) inherits secc_snmpd::params {
+
+  validate_bool($v2_enabled)
   if $v2_enabled {
     # Req1: warning if v2 enabled
-    warning("use of SNMPv2 is not recommended!")
+    warning('use of SNMPv2 is not recommended!')
 
     if $v2_community == undef {
       fail('v2_community is needed')
@@ -30,6 +32,7 @@ class secc_snmpd (
     }
   }
 
+  validate_bool($v3_enabled)
   if $v3_enabled {
     if $v3_user == undef {
       fail('v3_user is needed')
@@ -41,6 +44,9 @@ class secc_snmpd (
       fail('v3_passphrase is needed')
     }
   }
+
+  validate_bool($enforce_password_security)
+
   include secc_snmpd::install
 
   include secc_snmpd::config

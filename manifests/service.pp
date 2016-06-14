@@ -1,22 +1,22 @@
-class secc_snmpd::service inherits secc_snmpd {
+class secc_snmpd::service {
 
-  if $v2_enabled or $v3_enabled {
+  if $secc_snmpd::v2_enabled or $secc_snmpd::v3_enabled {
     service { 'snmpd':
-      ensure      => running,
-      hasrestart  => true,
-      hasstatus   => true,
-      enable      => true,
-      require     => Class['secc_snmpd::install'],
+      ensure     => running,
+      hasrestart => true,
+      hasstatus  => true,
+      enable     => true,
+      require    => Class['secc_snmpd::install'],
     }
   }
 
-  if $trap_enabled {
+  if $secc_snmpd::trap_enabled {
     service { 'snmptrapd':
-      ensure          => running,
-      hasrestart      => true,
-      hasstatus       => true,
-      enable          => true,
-      require         => Class['secc_snmpd::install'],
+      ensure     => running,
+      hasrestart => true,
+      hasstatus  => true,
+      enable     => true,
+      require    => Class['secc_snmpd::install'],
     }
   }
 

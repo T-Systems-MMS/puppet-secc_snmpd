@@ -1,4 +1,4 @@
-define secc_snmpd::user (
+define secc_snmpd::config::v3 (
   $v3_password,
   $v3_passphrase,
 ) {
@@ -43,7 +43,7 @@ define secc_snmpd::user (
   }
 
   if $_securitycheck == false and $secc_snmpd::enforce_password_security == true {
-    fail("Security parameters for Password not met!")
+    fail('Security parameters for Password not met!')
   }
 
   # Req6: no additional prov needed, only read-only
@@ -60,5 +60,3 @@ define secc_snmpd::user (
   }
 
 }
-
-# TODO: add class to batch create additional users from foreman data

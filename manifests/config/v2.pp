@@ -1,4 +1,4 @@
-define secc_snmpd::community (
+define secc_snmpd::config::v2 (
   $v2_community,
   $v2_host,
 ) {
@@ -20,7 +20,7 @@ define secc_snmpd::community (
   }
 
   if $_securitycheck == false and $secc_snmpd::enforce_password_security == true {
-    fail("Security parameters for Community not met!")
+    fail('Security parameters for Community not met!')
   }
 
   concat::fragment { "snmpd.conf_community_${$v2_community}_${v2_host}":
@@ -30,5 +30,3 @@ define secc_snmpd::community (
   }
 
 }
-
-# TODO: add class to batch create additional communities from foreman data

@@ -2,5 +2,8 @@
 .kitchen/
 .tmp/
 .librarian/
-Puppetfile.lock
 /.idea/
+/log/
+/.vagrant/
+/junit/
+*.lock
