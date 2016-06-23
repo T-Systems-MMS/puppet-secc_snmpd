@@ -1,4 +1,7 @@
-# SNMP Module - Version 1.0.4
+# SNMP Module
+
+[build_status]: https://teamcity.internal.mms-support.de/app/rest/builds/buildType:(id:SeccSnmpd_Beaker),branch:master/statusIcon  "Build Status"
+![build status][build_status]
 
 ####Table of Contents
 
@@ -52,3 +55,4 @@ Das Modul kann SNMP auf einem Linux System installieren und konfigurieren.
 - 1.0.3 fixed deactivation snmp v1 and v2
 - 1.0.4 rewrite of some parts, added user and community functions, fixed SNMPv3 support
 - 1.0.6 Anforderungen aus [ASC-25] eingebaut, Tests geschrieben
+- 1.0.7 Rückmeldungen von Securityteam eingebaut, Passwortchange optimiert

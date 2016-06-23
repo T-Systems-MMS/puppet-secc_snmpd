@@ -46,17 +46,54 @@ define secc_snmpd::config::v3 (
     fail('Security parameters for Password not met!')
   }
 
-  # Req6: no additional prov needed, only read-only
+  # Req6: priv needed, only read-only
   concat::fragment { "snmpd.conf_access_${title}":
     target  => '/etc/snmp/snmpd.conf',
-    content => "rouser ${title}\n",
+    content => "rouser ${title} priv\n",
     order   => 10,
   }
+
+  concat::fragment { "pw_retention_${title}":
+    target  => '/var/lib/net-snmp/pw_history.log',
+    content => sprintf('%s = %s\n', $title, sha1("${v3_password}${v3_passphrase}")),
+    order   => 01,
+  }
+
+  exec { "stop_snmpd_${title}":
+    subscribe   => Concat['/var/lib/net-snmp/pw_history.log'],
+    refreshonly => true,
+    path        => ['/usr/bin','/usr/sbin','/bin','/sbin'],
+    command     => 'service snmpd stop',
+    onlyif      => 'test -f /var/lib/net-snmp/snmpd.conf',
+    notify      => [
+      Class['secc_snmpd::service'],
+      Exec["delete_usmUser_${title}"]
+    ],
+  }
+
+  exec { "delete_usmUser_${title}":
+    refreshonly => true,
+    path        => ['/usr/bin','/usr/sbin','/bin','/sbin'],
+    command     => "sed -i '/usmUser.*${title}/d' /var/lib/net-snmp/snmpd.conf",
+    onlyif      => 'test -f /var/lib/net-snmp/snmpd.conf',
+    notify      => [
+      File_line["snmp_user_${title}"],
+    ],
+  }
+
   # Req2: use SHA
-  concat::fragment { "snmpd.conf_user_${title}":
-    target  => '/etc/snmp/snmpd.conf',
-    content => "createUser ${title} SHA ${v3_password} AES ${v3_passphrase}\n",
-    order   => 20,
+  file_line { "snmp_user_${title}":
+    path    => '/var/lib/net-snmp/snmpd.conf',
+    line    => "createUser ${title} SHA ${v3_password} AES ${v3_passphrase}",
+    match   => "usmUser.*${title}",
+    replace => false,
+    require => [
+      File['/var/lib/net-snmp/snmpd.conf'],
+      Concat::Fragment["pw_retention_${title}"],
+    ],
+    notify  => [
+      Class['secc_snmpd::service'],
+    ]
   }
 
 }

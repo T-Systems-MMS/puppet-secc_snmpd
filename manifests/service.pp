@@ -19,5 +19,4 @@ class secc_snmpd::service {
       require    => Class['secc_snmpd::install'],
     }
   }
-
 }
