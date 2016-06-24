@@ -41,8 +41,7 @@ Das Modul kann SNMP auf einem Linux System installieren und konfigurieren.
 - Anforderungen stammen aus [SoC Requirements 3_45_SNMP_v2.0.pdf](https://psa-portal.telekom.de/intranet-ui/public/releases/documents.xhtml?style=normal&domain=56828&source=login#)
 
 ##Limitations
-- Modul wurde nur auf CentOS7 gestestet.
-- Es darf KEIN Semikolon (;) für Passwörter verwendet werden!
+- Modul wurde  auf CentOS7 und CentOS6 gestestet.
 
 ##Development
 - Änderungen am Modul bitte über Git dokumentieren.
@@ -56,3 +55,4 @@ Das Modul kann SNMP auf einem Linux System installieren und konfigurieren.
 - 1.0.4 rewrite of some parts, added user and community functions, fixed SNMPv3 support
 - 1.0.6 Anforderungen aus [ASC-25] eingebaut, Tests geschrieben
 - 1.0.7 Rückmeldungen von Securityteam eingebaut, Passwortchange optimiert
+- 1.0.8 added support for CentOS6

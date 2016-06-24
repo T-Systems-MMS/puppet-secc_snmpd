@@ -84,7 +84,7 @@ describe 'Class secc_snmpd' do
       it { is_expected.to be_owned_by 'root' }
       it { is_expected.to be_grouped_into 'root' }
       it { is_expected.to be_mode 600 }
-      its(:content) { is_expected.to contain "usmUser.*0x.*#{username}" }
+      its(:content) { is_expected.to contain "usmUser.*0x.*(#{username}|#{username.each_byte.map { |b| b.to_s(16) }.join})" }
     end
   end
 
@@ -130,7 +130,7 @@ describe 'Class secc_snmpd' do
     end
 
     it 'should run without errors and new password' do
-      checkline = command("grep -e 'usm.*#{username}' /var/lib/net-snmp/snmpd.conf").stdout
+      checkline = command("grep -e 'usm.*#{username}' -e 'usm.*#{username.each_byte.map { |b| b.to_s(16) }.join}' /var/lib/net-snmp/snmpd.conf").stdout
       result = apply_manifest(manifest2, :catch_failures => true)
       expect(result.exit_code).to eq(2)
       expect(result.output).to include "stop_snmpd_#{username}"

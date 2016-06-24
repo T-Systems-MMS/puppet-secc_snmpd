@@ -9,6 +9,6 @@ group :acceptance do
   gem 'ffaker'
   gem 'puppet'
   gem 'puppetlabs_spec_helper'
-  gem 'puppet-lint'
+  gem 'puppet-lint', '1.1.0'
   gem 'puppet-syntax'
 end

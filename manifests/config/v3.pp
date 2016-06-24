@@ -46,6 +46,9 @@ define secc_snmpd::config::v3 (
     fail('Security parameters for Password not met!')
   }
 
+
+  $user_hex = bin_to_hex($title)
+
   # Req6: priv needed, only read-only
   concat::fragment { "snmpd.conf_access_${title}":
     target  => '/etc/snmp/snmpd.conf',
@@ -66,7 +69,6 @@ define secc_snmpd::config::v3 (
     command     => 'service snmpd stop',
     onlyif      => 'test -f /var/lib/net-snmp/snmpd.conf',
     notify      => [
-      Class['secc_snmpd::service'],
       Exec["delete_usmUser_${title}"]
     ],
   }
@@ -74,7 +76,7 @@ define secc_snmpd::config::v3 (
   exec { "delete_usmUser_${title}":
     refreshonly => true,
     path        => ['/usr/bin','/usr/sbin','/bin','/sbin'],
-    command     => "sed -i '/usmUser.*${title}/d' /var/lib/net-snmp/snmpd.conf",
+    command     => "sed -i -e '/usmUser.*${title}/d' -e '/usmUser.*${user_hex}/d' /var/lib/net-snmp/snmpd.conf",
     onlyif      => 'test -f /var/lib/net-snmp/snmpd.conf',
     notify      => [
       File_line["snmp_user_${title}"],
@@ -85,7 +87,7 @@ define secc_snmpd::config::v3 (
   file_line { "snmp_user_${title}":
     path    => '/var/lib/net-snmp/snmpd.conf',
     line    => "createUser ${title} SHA ${v3_password} AES ${v3_passphrase}",
-    match   => "usmUser.*${title}",
+    match   => "usmUser.*(${title}|${user_hex})",
     replace => false,
     require => [
       File['/var/lib/net-snmp/snmpd.conf'],
