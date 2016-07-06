@@ -56,3 +56,4 @@ Das Modul kann SNMP auf einem Linux System installieren und konfigurieren.
 - 1.0.6 Anforderungen aus [ASC-25] eingebaut, Tests geschrieben
 - 1.0.7 Rückmeldungen von Securityteam eingebaut, Passwortchange optimiert
 - 1.0.8 added support for CentOS6
+- 1.0.9 better coding guidelines implemented

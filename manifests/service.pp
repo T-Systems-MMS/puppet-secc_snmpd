@@ -1,6 +1,6 @@
 class secc_snmpd::service {
 
-  if $secc_snmpd::v2_enabled or $secc_snmpd::v3_enabled {
+  if $::secc_snmpd::v2_enabled or $::secc_snmpd::v3_enabled {
     service { 'snmpd':
       ensure     => running,
       hasrestart => true,
@@ -10,7 +10,7 @@ class secc_snmpd::service {
     }
   }
 
-  if $secc_snmpd::trap_enabled {
+  if $::secc_snmpd::trap_enabled {
     service { 'snmptrapd':
       ensure     => running,
       hasrestart => true,

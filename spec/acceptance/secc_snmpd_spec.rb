@@ -74,8 +74,9 @@ describe 'Class secc_snmpd' do
       it { is_expected.to be_owned_by 'root' }
       it { is_expected.to be_grouped_into 'root' }
       it { is_expected.to be_mode 600 }
-      its(:content) { is_expected.to include 'syscontact' }
-      its(:content) { is_expected.to include 'syslocation' }
+      its(:content) { is_expected.to include 'MANAGED BY PUPPET [secc_snmpd]' }
+      its(:content) { is_expected.to include 'syscontact test root@me.you' }
+      its(:content) { is_expected.to include 'syslocation at home' }
       its(:content) { is_expected.to include "rouser #{username} priv" }
     end
 

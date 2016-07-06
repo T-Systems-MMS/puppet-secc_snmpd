@@ -1,5 +1,5 @@
 class secc_snmpd::install {
-  package { $secc_snmpd::params::package_name:
+  package { $::secc_snmpd::params::package_name:
     ensure => present,
   }
 
@@ -9,7 +9,7 @@ class secc_snmpd::install {
     owner  => 'root',
     group  => 'root',
     path   => '/etc/sysconfig/snmpd',
-    notify => Class['secc_snmpd::service'],
     source => 'puppet:///modules/secc_snmpd/etc/sysconfig/snmpd',
+    notify => Class['secc_snmpd::service'],
   }
 }

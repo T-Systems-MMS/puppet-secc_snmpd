@@ -19,7 +19,7 @@ define secc_snmpd::config::v2 (
     }
   }
 
-  if $_securitycheck == false and $secc_snmpd::enforce_password_security == true {
+  if $_securitycheck == false and $::secc_snmpd::enforce_password_security == true {
     fail('Security parameters for Community not met!')
   }
 

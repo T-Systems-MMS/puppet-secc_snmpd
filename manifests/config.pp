@@ -1,4 +1,4 @@
-class secc_snmpd::config inherits secc_snmpd {
+class secc_snmpd::config {
 
   concat { '/etc/snmp/snmpd.conf':
     mode    => '0600',
@@ -21,14 +21,14 @@ class secc_snmpd::config inherits secc_snmpd {
     order   => 01,
   }
 
-  if $secc_snmpd::v2_enabled {
-    secc_snmpd::config::v2{ "${$secc_snmpd::v2_community}_${secc_snmpd::v2_host}":
-      v2_community => $secc_snmpd::v2_community,
-      v2_host      => $secc_snmpd::v2_host
+  if $::secc_snmpd::v2_enabled {
+    secc_snmpd::config::v2{ "${::secc_snmpd::v2_community}_${::secc_snmpd::v2_host}":
+      v2_community => $::secc_snmpd::v2_community,
+      v2_host      => $::secc_snmpd::v2_host
     }
   }
 
-  if $secc_snmpd::v3_enabled {
+  if $::secc_snmpd::v3_enabled {
     concat { '/var/lib/net-snmp/pw_history.log':
       mode    => '0600',
       group   => 'root',
@@ -37,14 +37,14 @@ class secc_snmpd::config inherits secc_snmpd {
       notify  => Class['secc_snmpd::service'],
     }
 
-    secc_snmpd::config::v3{ $secc_snmpd::v3_user:
-      v3_password   => $secc_snmpd::v3_password,
-      v3_passphrase => $secc_snmpd::v3_passphrase,
+    secc_snmpd::config::v3{ $::secc_snmpd::v3_user:
+      v3_password   => $::secc_snmpd::v3_password,
+      v3_passphrase => $::secc_snmpd::v3_passphrase,
     }
 
   }
 
-  if $secc_snmpd::trap_enabled {
+  if $::secc_snmpd::trap_enabled {
     file { '/etc/snmp/snmptrapd.conf':
       ensure  => present,
       mode    => '0600',

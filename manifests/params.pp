@@ -10,8 +10,12 @@ class secc_snmpd::params {
   $enforce_password_security  = true
 
   case $::operatingsystem {
-    default: {
+    'CentOS',
+    'RedHat': {
       $package_name           = 'net-snmp'
+    }
+    default: {
+      fail('unknown os type')
     }
   }
 }
