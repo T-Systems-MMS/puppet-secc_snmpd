@@ -4,7 +4,7 @@ define secc_snmpd::config::v2 (
 ) {
   # Req4,5: Password security
   # verification password length
-  if size($v2_community) < '8' {
+  if size($v2_community) < 8 {
     warning('Community must have 8 or more than 8 characters!')
     if $_securitycheck == undef {
       $_securitycheck = false

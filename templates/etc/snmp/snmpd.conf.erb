@@ -4,6 +4,6 @@
 #### DO IT ON THE PUPPET MASTER!
 ####################################
 
-syscontact <%= @service %> <%= @syscontact %>
-syslocation <%= @syslocation %>
+syscontact <%= scope['::secc_snmpd::service'] %> <%= scope['::secc_snmpd::syscontact'] %>
+syslocation <%= scope['::secc_snmpd::syslocation'] %>
 
