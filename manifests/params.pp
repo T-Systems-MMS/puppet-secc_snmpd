@@ -11,7 +11,8 @@ class secc_snmpd::params {
 
   case $::operatingsystem {
     'CentOS',
-    'RedHat': {
+    'RedHat',
+    'XenServer': {
       $package_name           = 'net-snmp'
     }
     default: {
