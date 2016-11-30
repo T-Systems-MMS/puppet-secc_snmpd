@@ -8,11 +8,20 @@ class secc_snmpd::config {
     notify  => Class['secc_snmpd::service'],
   }
 
+  file { '/var/lib/net-snmp/':
+    ensure => directory,
+    mode   => '0600',
+    owner  => 'root',
+    group  => 'root',
+    require => Class['secc_snmpd::install'],
+  }
+
   file { '/var/lib/net-snmp/snmpd.conf':
     ensure => present,
     mode   => '0600',
     owner  => 'root',
     group  => 'root',
+    require => Class['secc_snmpd::install'],
   }
   # Req3: no default user/community
   concat::fragment { 'snmpd.conf_base':
@@ -33,7 +42,7 @@ class secc_snmpd::config {
       mode    => '0600',
       group   => 'root',
       owner   => 'root',
-      require => Class['secc_snmpd::install'],
+      require => [ Class['secc_snmpd::install'], File['/var/lib/net-snmp/'] ],
       notify  => Class['secc_snmpd::service'],
     }
 
