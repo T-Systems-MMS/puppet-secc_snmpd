@@ -1,8 +1,8 @@
-####################################################
-## Achtung das Passwort und der Passphrase dürfen ##
-## KEIN Semikolon enthalten. exec in der Klasse   ##
-## config funktioniert sonst nicht!               ##
-####################################################
+#####################################################
+## Achtung das Passwort und der Passphrase duerfen ##
+## KEIN Semikolon enthalten. exec in der Klasse    ##
+## config funktioniert sonst nicht!                ##
+#####################################################
 
 class secc_snmpd (
   $service,

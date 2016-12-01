@@ -23,9 +23,9 @@ define secc_snmpd::config::v2 (
     fail('Security parameters for Community not met!')
   }
 
-  concat::fragment { "snmpd.conf_community_${$v2_community}_${v2_host}":
+  concat::fragment { "snmpd.conf_community_${v2_community}_${v2_host}":
     target  => '/etc/snmp/snmpd.conf',
-    content => "rocommunity ${$v2_community} ${v2_host}\n",
+    content => "rocommunity ${v2_community} ${v2_host}\n",
     order   => 05,
   }
 
