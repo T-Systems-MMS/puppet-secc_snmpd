@@ -9,18 +9,18 @@ class secc_snmpd::config {
   }
 
   file { '/var/lib/net-snmp/':
-    ensure => directory,
-    mode   => '0600',
-    owner  => 'root',
-    group  => 'root',
+    ensure  => directory,
+    mode    => '0600',
+    owner   => 'root',
+    group   => 'root',
     require => Class['secc_snmpd::install'],
   }
 
   file { '/var/lib/net-snmp/snmpd.conf':
-    ensure => present,
-    mode   => '0600',
-    owner  => 'root',
-    group  => 'root',
+    ensure  => present,
+    mode    => '0600',
+    owner   => 'root',
+    group   => 'root',
     require => Class['secc_snmpd::install'],
   }
   # Req3: no default user/community

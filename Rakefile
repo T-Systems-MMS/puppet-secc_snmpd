@@ -23,3 +23,11 @@ PuppetLint.configuration.fail_on_warnings
 #PuppetLint.configuration.send('disable_single_quote_string_with_variables')
 PuppetLint.configuration.ignore_paths = ["spec/**/*.pp", "pkg/**/*.pp"]
 PuppetLint.configuration.log_format = "##teamcity[testStarted name='lint %{filename}:%{line}']##teamcity[testStdErr name='lint %{filename}:%{line}' out='%{message}']##teamcity[testFailed name='lint %{filename}:%{line}' message='%{message}']##teamcity[testFinished name='lint %{filename}:%{line}']"
+
+desc "Fix puppet-lint errors"
+PuppetLint::RakeTask.new :lint_fix do |configuration|
+  configuration.fail_on_warnings
+  configuration.ignore_paths = ["spec/**/*.pp", "pkg/**/*.pp"]
+  configuration.fix = true
+  configuration.log_format = ''
+end
