@@ -3,7 +3,7 @@ HOSTS:
     roles:
       - agent
     platform: el-7-x86_64
-    image: centos:7proxy
+    image: docker.internal.mms-support.de/centos:7proxy
     hypervisor: docker
     docker_cmd: '["/sbin/init"]'
     docker_preserve_image: true
