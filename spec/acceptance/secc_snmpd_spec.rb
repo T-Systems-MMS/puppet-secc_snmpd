@@ -23,11 +23,11 @@ describe 'Class secc_snmpd' do
     }
 
     it 'should run without errors' do
-      expect(apply_manifest(manifest, :catch_failures => true, :future_parser => true).exit_code).to eq(2)
+      expect(apply_manifest(manifest, :catch_failures => true).exit_code).to eq(2)
     end
 
     it 'should re-run without changes' do
-      expect(apply_manifest(manifest, :catch_changes => true, :future_parser => true).exit_code).to be_zero
+      expect(apply_manifest(manifest, :catch_changes => true).exit_code).to be_zero
     end
 
     it 'should not accept weak password/passphrase' do
@@ -41,7 +41,7 @@ describe 'Class secc_snmpd' do
             v3_passphrase             => 'pass',
           }
         EOS
-      result = apply_manifest(manifest, :expect_failures => true, :future_parser => true)
+      result = apply_manifest(manifest, :expect_failures => true)
       expect(result.exit_code).to eq(1)
       expect(result.output).to include 'Password must have 8 or more than 8 characters!'
       expect(result.output).to include 'Password must contain [a-z],[A-Z],[0-9] characters and special characters!'
@@ -122,11 +122,11 @@ describe 'Class secc_snmpd' do
     }
 
     it 'should run without errors' do
-      expect(apply_manifest(manifest, :catch_failures => true, :future_parser => true).exit_code).to eq(2)
+      expect(apply_manifest(manifest, :catch_failures => true).exit_code).to eq(2)
     end
 
     it 'should re-run without changes' do
-      expect(apply_manifest(manifest, :catch_changes => true, :future_parser => true).exit_code).to be_zero
+      expect(apply_manifest(manifest, :catch_changes => true).exit_code).to be_zero
     end
 
     it 'should run without errors and new password' do
@@ -142,7 +142,7 @@ describe 'Class secc_snmpd' do
     end
 
     it 'should re-run without changes and new password' do
-      expect(apply_manifest(manifest2, :catch_changes => true, :future_parser => true).exit_code).to be_zero
+      expect(apply_manifest(manifest2, :catch_changes => true).exit_code).to be_zero
     end
 
 
@@ -170,14 +170,14 @@ describe 'Class secc_snmpd' do
     }
 
     it 'should run without errors' do
-      result = apply_manifest(manifest, :catch_failures => true, :future_parser => true)
+      result = apply_manifest(manifest, :catch_failures => true)
       expect(result.exit_code).to eq(2)
       expect(result.output).to include 'Password must contain [a-z],[A-Z],[0-9] characters and special characters!'
       expect(result.output).to include 'Passphrase must contain [a-z],[A-Z],[0-9] characters and special characters!'
      end
 
     it 'should re-run without changes' do
-      result = apply_manifest(manifest, :catch_changes => true, :future_parser => true)
+      result = apply_manifest(manifest, :catch_changes => true)
       expect(result.exit_code).to be_zero
       expect(result.output).to include 'Password must contain [a-z],[A-Z],[0-9] characters and special characters!'
       expect(result.output).to include 'Passphrase must contain [a-z],[A-Z],[0-9] characters and special characters!'
@@ -204,13 +204,13 @@ describe 'Class secc_snmpd' do
     }
 
     it 'should run without errors' do
-      result = apply_manifest(manifest, :catch_failures => true, :future_parser => true)
+      result = apply_manifest(manifest, :catch_failures => true)
       expect(result.exit_code).to eq(2)
       expect(result.output).to include 'use of SNMPv2 is not recommended!'
      end
 
     it 'should re-run without changes' do
-      result = apply_manifest(manifest, :catch_changes => true, :future_parser => true)
+      result = apply_manifest(manifest, :catch_changes => true)
       expect(result.exit_code).to be_zero
       expect(result.output).to include 'use of SNMPv2 is not recommended!'
     end
@@ -237,7 +237,7 @@ describe 'Class secc_snmpd' do
     }
 
     it 'should run without errors' do
-      result = apply_manifest(manifest, :catch_failures => true, :future_parser => true)
+      result = apply_manifest(manifest, :catch_failures => true)
       expect(result.exit_code).to eq(2)
       expect(result.output).to include 'use of SNMPv2 is not recommended!'
       expect(result.output).to include 'Community must have 8 or more than 8 characters!'
@@ -245,7 +245,7 @@ describe 'Class secc_snmpd' do
      end
 
     it 'should re-run without changes' do
-      result = apply_manifest(manifest, :catch_changes => true, :future_parser => true)
+      result = apply_manifest(manifest, :catch_changes => true)
       expect(result.exit_code).to be_zero
       expect(result.output).to include 'use of SNMPv2 is not recommended!'
       expect(result.output).to include 'Community must have 8 or more than 8 characters!'

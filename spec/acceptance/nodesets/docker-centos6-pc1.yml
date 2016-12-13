@@ -1,0 +1,18 @@
+HOSTS:
+  centos-6:
+    roles:
+      - agent
+    platform: el-6-x86_64
+    image: docker.internal.mms-support.de/centos:6proxy
+    hypervisor: docker
+    docker_cmd: '["/sbin/init"]'
+    docker_preserve_image: true
+    docker_image_commands:
+      - 'yum localinstall -y https://yum.puppetlabs.com/puppetlabs-release-pc1-el-6.noarch.rpm'
+      - 'yum install -y puppet-agent'
+      - 'source /etc/profile.d/puppet-agent.sh'
+      - '/opt/puppetlabs/puppet/bin/puppet module install puppetlabs-stdlib'
+      - '/opt/puppetlabs/puppet/bin/puppet module install puppetlabs-concat'
+CONFIG:
+  type: foss
+  package_proxy: http://proxy.mms-dresden.de:8080
