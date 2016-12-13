@@ -17,8 +17,14 @@ RSpec.configure do |c|
       host.add_env_var('HTTPS_PROXY', 'http://proxy.mms-dresden.de:8080')
 
       install_puppet_on(host)
+
+      result = on(host, "puppet config print modulepath")
+      modulepaths = result.stdout.split(":")
+      modulepath = modulepaths[modulepaths.length - 1]
+      logger.info('modulepath: ' + modulepath)
+
       install_dev_puppet_module_on(host, :source => module_root, :module_name => 'secc_snmpd',
-          :target_module_path => '/etc/puppet/modules')
+          :target_module_path => modulepath)
       # Install dependencies
       on(host, puppet('module', 'install', 'puppetlabs-stdlib'))
       on(host, puppet('module', 'install', 'puppetlabs-concat'))
