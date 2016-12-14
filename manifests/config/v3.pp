@@ -3,7 +3,7 @@ define secc_snmpd::config::v3 (
   $v3_passphrase,
 ) {
 
-  validate_string($v3_user)
+  validate_string($title)
   validate_string($v3_password)
   validate_string($v3_passphrase)
   notify{"${$v3_user}": }
