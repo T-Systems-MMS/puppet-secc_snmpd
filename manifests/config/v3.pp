@@ -3,10 +3,8 @@ define secc_snmpd::config::v3 (
   $v3_passphrase,
 ) {
 
-  validate_string($title)
   validate_string($v3_password)
   validate_string($v3_passphrase)
-  notify{"${$title}": }
   notify{"${$v3_password}": }
   notify{"${$v3_passphrase}": }
   # Req4,5: Password security
@@ -55,6 +53,8 @@ define secc_snmpd::config::v3 (
 
 
   $user_hex = bin_to_hex($title)
+
+  notify{"${$user_hex}": }
 
   # Req6: priv needed, only read-only
   concat::fragment { "snmpd.conf_access_${title}":
