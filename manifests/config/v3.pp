@@ -2,6 +2,11 @@ define secc_snmpd::config::v3 (
   $v3_password,
   $v3_passphrase,
 ) {
+
+  validate_string($v3_password)
+  validate_string($v3_passphrase)
+  notify{"${$v3_password}": }
+  notify{"${$v3_passphrase}": }
   # Req4,5: Password security
   # verification password length
   if size($v3_password) < 8 {
