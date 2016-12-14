@@ -3,8 +3,10 @@ define secc_snmpd::config::v3 (
   $v3_passphrase,
 ) {
 
+  validate_string($v3_user)
   validate_string($v3_password)
   validate_string($v3_passphrase)
+  notify{"${$v3_user}": }
   notify{"${$v3_password}": }
   notify{"${$v3_passphrase}": }
   # Req4,5: Password security
