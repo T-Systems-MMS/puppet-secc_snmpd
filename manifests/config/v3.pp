@@ -94,7 +94,7 @@ define secc_snmpd::config::v3 (
   file_line { "snmp_user_${title}":
     path    => '/var/lib/net-snmp/snmpd.conf',
     line    => "createUser ${title} SHA ${v3_password} AES ${v3_passphrase}",
-    match   => "usmUser.*(${title}|${user_hex})",
+    #match   => "usmUser.*(${title}|${user_hex})",
     replace => false,
     require => [
       File['/var/lib/net-snmp/snmpd.conf'],
