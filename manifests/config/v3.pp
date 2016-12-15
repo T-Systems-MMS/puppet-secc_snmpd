@@ -56,6 +56,9 @@ define secc_snmpd::config::v3 (
 
   notify{"${$user_hex}": }
 
+  notify{"snmp_user_${title}":}
+
+
   # Req6: priv needed, only read-only
   concat::fragment { "snmpd.conf_access_${title}":
     target  => '/etc/snmp/snmpd.conf',
