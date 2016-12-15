@@ -17,7 +17,7 @@
   "project_page": "",
   "requirements": [],
   "source": "",
-  "summary": "",
+  "summary": "Dieses Modul bietet eine teilweise Abdeckung der SoC Anforderungen für SNMP unter Linux.",
   "tags": [],
-  "version": "1.0.11"
+  "version": "1.0.12"
 }
