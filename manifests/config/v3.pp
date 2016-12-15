@@ -103,9 +103,9 @@ define secc_snmpd::config::v3 (
     #  File['/var/lib/net-snmp/snmpd.conf'],
     #  Concat::Fragment["pw_retention_${title}"],
     #],
-    #notify  => [
-    #  Class['secc_snmpd::service'],
-    #]
+    notify  => [
+      Class['secc_snmpd::service'],
+    ]
   }
 
 }
