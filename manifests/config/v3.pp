@@ -95,14 +95,14 @@ define secc_snmpd::config::v3 (
     path    => '/var/lib/net-snmp/snmpd.conf',
     line    => "createUser ${title} SHA ${v3_password} AES ${v3_passphrase}",
     #match   => "usmUser.*(${title}|${user_hex})",
-    replace => false,
-    require => [
-      File['/var/lib/net-snmp/snmpd.conf'],
-      Concat::Fragment["pw_retention_${title}"],
-    ],
-    notify  => [
-      Class['secc_snmpd::service'],
-    ]
+    #replace => false,
+    #require => [
+    #  File['/var/lib/net-snmp/snmpd.conf'],
+    #  Concat::Fragment["pw_retention_${title}"],
+    #],
+    #notify  => [
+    #  Class['secc_snmpd::service'],
+    #]
   }
 
 }
