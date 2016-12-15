@@ -2,11 +2,6 @@ define secc_snmpd::config::v3 (
   $v3_password,
   $v3_passphrase,
 ) {
-
-  validate_string($v3_password)
-  validate_string($v3_passphrase)
-  notify{"${$v3_password}": }
-  notify{"${$v3_passphrase}": }
   # Req4,5: Password security
   # verification password length
   if size($v3_password) < 8 {
@@ -54,11 +49,6 @@ define secc_snmpd::config::v3 (
 
   $user_hex = bin_to_hex($title)
 
-  notify{"${$user_hex}": }
-
-  notify{"snmp_user_${title}":}
-
-
   # Req6: priv needed, only read-only
   concat::fragment { "snmpd.conf_access_${title}":
     target  => '/etc/snmp/snmpd.conf',
@@ -97,12 +87,12 @@ define secc_snmpd::config::v3 (
   file_line { "snmp_user_${title}":
     path    => '/var/lib/net-snmp/snmpd.conf',
     line    => "createUser ${title} SHA ${v3_password} AES ${v3_passphrase}",
-    #match   => "usmUser.*(${title}|${user_hex})",
-    #replace => false,
-    #require => [
-    #  File['/var/lib/net-snmp/snmpd.conf'],
-    #  Concat::Fragment["pw_retention_${title}"],
-    #],
+    match   => "usmUser.*(${title}|${user_hex})",
+    replace => false,
+    require => [
+      File['/var/lib/net-snmp/snmpd.conf'],
+      Concat::Fragment["pw_retention_${title}"],
+    ],
     notify  => [
       Class['secc_snmpd::service'],
     ]
