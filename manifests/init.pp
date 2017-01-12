@@ -17,6 +17,7 @@ class secc_snmpd (
   $v3_passphrase             = $::secc_snmpd::params::v3_passphrase,
   $trap_enabled              = $::secc_snmpd::params::trap_enabled,
   $enforce_password_security = $::secc_snmpd::params::enforce_password_security,
+  $dlmod_enabled             = $::secc_snmpd::params::dlmod_enabled,
 ) inherits secc_snmpd::params {
 
   validate_bool($::secc_snmpd::v2_enabled)
@@ -46,6 +47,8 @@ class secc_snmpd (
   }
 
   validate_bool($::secc_snmpd::enforce_password_security)
+
+  validate_bool($::secc_snmpd::dlmod_enabled)
 
   contain secc_snmpd::install
 

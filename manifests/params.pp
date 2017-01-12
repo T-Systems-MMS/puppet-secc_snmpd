@@ -19,4 +19,12 @@ class secc_snmpd::params {
       fail('unknown os type')
     }
   }
+
+  $is_virtual = str2bool($::is_virtual)
+  if $is_virtual == false and $::manufacturer == 'HP' {
+    $dlmod_enabled = true
+  } else {
+    $dlmod_enabled = false
+  }
+
 }
