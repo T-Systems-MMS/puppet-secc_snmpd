@@ -33,7 +33,7 @@ class secc_snmpd::config {
   if $::secc_snmpd::v2_enabled {
     secc_snmpd::config::v2{ "${::secc_snmpd::v2_community}_${::secc_snmpd::v2_host}":
       v2_community => $::secc_snmpd::v2_community,
-      v2_host      => $::secc_snmpd::v2_host
+      v2_host      => $::secc_snmpd::v2_host,
     }
   }
 
@@ -53,6 +53,19 @@ class secc_snmpd::config {
 
   }
 
+  if $::secc_snmpd::dlmod_enabled == true {
+    concat::fragment { 'snmpd.conf_HP_Agent':
+      target  => '/etc/snmp/snmpd.conf',
+      content => "dlmod cmaX /usr/lib64/libcmaX64.so\n",
+      order   => 20,
+    }
+      file { '/usr/lib64/libcmaX64.so':
+        ensure   => 'present',
+        noop     => true,
+        loglevel => 'warning',
+      }
+  }
+  
   if $::secc_snmpd::trap_enabled {
     file { '/etc/snmp/snmptrapd.conf':
       ensure  => present,
