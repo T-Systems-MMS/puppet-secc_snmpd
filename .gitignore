@@ -6,4 +6,4 @@
 /log/
 /.vagrant/
 /junit/
-*.lock
+*.iml
