@@ -1,6 +1,7 @@
 # Contributing
 
-Danke, dass du dich an der Weiterentwicklung unserer SecC Puppet Module beteiligen willst! Durch deine Mithile, können wir gemeinsam ein Sicherheitslevel in der AMCS etablieren, dass für uns alle zielführend ist und unseren Arbeitsaufwand in den Services deutlich reduziert.
+Danke, dass du dich an der Weiterentwicklung unserer SecC Puppet Module beteiligen willst! Durch deine Mithilfe können wir gemeinsam ein Sicherheitslevel in der AMCS etablieren, dass für uns alle zielführend ist und unseren 
+Arbeitsaufwand in den Services deutlich reduziert.
 
 ## Einleitung
 
