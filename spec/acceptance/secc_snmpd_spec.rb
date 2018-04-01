@@ -48,7 +48,7 @@ describe 'Class secc_snmpd' do
       expect(result.output).to include 'Passphrase must have 8 or more than 8 characters!'
       expect(result.output).to include 'Passphrase must contain [a-z],[A-Z],[0-9] characters and special characters!'
       expect(result.output).to include 'Password and Passphrase are identical!'
-      expect(result.output).to include 'Security parameters for Password or Passphrase not met!'
+      expect(result.output).to include 'Security parameters for Password or Passphrase not met, not configuring user!'
     end
 
     describe package('net-snmp') do
