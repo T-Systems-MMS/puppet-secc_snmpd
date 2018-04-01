@@ -30,27 +30,6 @@ describe 'Class secc_snmpd' do
       expect(apply_manifest(manifest, :catch_changes => true).exit_code).to be_zero
     end
 
-    it 'should not accept weak password/passphrase' do
-      manifest =     <<-EOS
-        class { 'secc_snmpd':
-            service                   => 'test',
-            syslocation               => 'at home',
-            syscontact                => 'root@me.you',
-            v3_user                   => '#{username}',
-            v3_password               => 'pass',
-            v3_passphrase             => 'pass',
-          }
-        EOS
-      result = apply_manifest(manifest, :expect_failures => true)
-      expect(result.exit_code).to eq(1)
-      expect(result.output).to include 'Password must have 8 or more than 8 characters!'
-      expect(result.output).to include 'Password must contain [a-z],[A-Z],[0-9] characters and special characters!'
-      expect(result.output).to include 'Passphrase must have 8 or more than 8 characters!'
-      expect(result.output).to include 'Passphrase must contain [a-z],[A-Z],[0-9] characters and special characters!'
-      expect(result.output).to include 'Password and Passphrase are identical!'
-      expect(result.output).to include 'Security parameters for Password or Passphrase not met, not configuring user!'
-    end
-
     describe package('net-snmp') do
       it { is_expected.to be_installed }
     end
@@ -86,6 +65,64 @@ describe 'Class secc_snmpd' do
       it { is_expected.to be_mode 600 }
       its(:content) { is_expected.to contain "usmUser.*0x.*(#{username}|#{username.each_byte.map { |b| b.to_s(16) }.join})" }
     end
+  end
+
+  context 'default snmpv3 config, weak passwords and enforcing' do
+
+    it 'should not accept weak password/passphrase' do
+      manifest =     <<-EOS
+        class { 'secc_snmpd':
+            service                   => 'test',
+            syslocation               => 'at home',
+            syscontact                => 'root@me.you',
+            v3_user                   => 'testuser',
+            v3_password               => 'pass',
+            v3_passphrase             => 'pass',
+          }
+      EOS
+      result = apply_manifest(manifest, :catch_failures => true)
+      expect(result.exit_code).to eq(2)
+      expect(result.output).to include 'Warning: Password must have 8 or more than 8 characters!'
+      expect(result.output).to include 'Warning: Password must contain [a-z],[A-Z],[0-9] characters and special characters!'
+      expect(result.output).to include 'Warning: Passphrase must have 8 or more than 8 characters!'
+      expect(result.output).to include 'Warning: Passphrase must contain [a-z],[A-Z],[0-9] characters and special characters!'
+      expect(result.output).to include 'Warning: Password and Passphrase are identical!'
+      expect(result.output).to include 'Error: Security parameters for Password or Passphrase not met, not configuring user!'
+    end
+
+    describe file('/etc/snmp/snmpd.conf') do
+      its(:content) { is_expected.not_to include "rouser" }
+    end
+
+  end
+
+  context 'default snmpv3 config, weak passwords' do
+
+    it 'should not accept weak password/passphrase' do
+      manifest =     <<-EOS
+        class { 'secc_snmpd':
+            service                   => 'test',
+            syslocation               => 'at home',
+            syscontact                => 'root@me.you',
+            v3_user                   => 'testuser',
+            v3_password               => 'pass',
+            v3_passphrase             => 'pass',
+            enforce_password_security => false,
+          }
+      EOS
+      result = apply_manifest(manifest, :catch_failures => true)
+      expect(result.exit_code).to eq(2)
+      expect(result.output).to include 'Warning: Password must have 8 or more than 8 characters!'
+      expect(result.output).to include 'Warning: Password must contain [a-z],[A-Z],[0-9] characters and special characters!'
+      expect(result.output).to include 'Warning: Passphrase must have 8 or more than 8 characters!'
+      expect(result.output).to include 'Warning: Passphrase must contain [a-z],[A-Z],[0-9] characters and special characters!'
+      expect(result.output).to include 'Warning: Password and Passphrase are identical!'
+    end
+
+    describe file('/etc/snmp/snmpd.conf') do
+      its(:content) { is_expected.to include "rouser" }
+    end
+
   end
 
   context 'default snmpv3 config, password change' do
@@ -172,85 +209,11 @@ describe 'Class secc_snmpd' do
     it 'should run without errors' do
       result = apply_manifest(manifest, :catch_failures => true)
       expect(result.exit_code).to eq(2)
-      expect(result.output).to include 'Password must contain [a-z],[A-Z],[0-9] characters and special characters!'
-      expect(result.output).to include 'Passphrase must contain [a-z],[A-Z],[0-9] characters and special characters!'
+      expect(result.output).to include 'Warning: Password must contain [a-z],[A-Z],[0-9] characters and special characters!'
+      expect(result.output).to include 'Warning: Passphrase must contain [a-z],[A-Z],[0-9] characters and special characters!'
      end
 
-    it 'should re-run without changes' do
-      result = apply_manifest(manifest, :catch_changes => true)
-      expect(result.exit_code).to be_zero
-      expect(result.output).to include 'Password must contain [a-z],[A-Z],[0-9] characters and special characters!'
-      expect(result.output).to include 'Passphrase must contain [a-z],[A-Z],[0-9] characters and special characters!'
-    end
+    # no re-run check, because constant error with weak password
+
   end
-
-  context 'snmpv2 config' do
-    community = FFaker::String.from_regexp(/\w{8}aA2!/)
-
-    command("service snmpd stop")
-
-    let(:manifest) {
-    <<-EOS
-      class { 'secc_snmpd':
-        service                   => 'test',
-        syslocation               => 'at home',
-        syscontact                => 'root@me.you',
-        v2_enabled                => true,
-        v3_enabled                => false,
-        v2_community              => '#{community}',
-        v2_host                   => 'localhost',
-      }
-    EOS
-    }
-
-    it 'should run without errors' do
-      result = apply_manifest(manifest, :catch_failures => true)
-      expect(result.exit_code).to eq(2)
-      expect(result.output).to include 'use of SNMPv2 is not recommended!'
-     end
-
-    it 'should re-run without changes' do
-      result = apply_manifest(manifest, :catch_changes => true)
-      expect(result.exit_code).to be_zero
-      expect(result.output).to include 'use of SNMPv2 is not recommended!'
-    end
-  end
-
-  context 'snmpv2 config with weak passwords' do
-    community = FFaker::String.from_regexp(/\w{6}/)
-
-    command("service snmpd stop")
-
-    let(:manifest) {
-    <<-EOS
-      class { 'secc_snmpd':
-        service                   => 'test',
-        syslocation               => 'at home',
-        syscontact                => 'root@me.you',
-        v2_enabled                => true,
-        v3_enabled                => false,
-        v2_community              => '#{community}',
-        v2_host                   => 'localhost',
-        enforce_password_security => false,
-      }
-    EOS
-    }
-
-    it 'should run without errors' do
-      result = apply_manifest(manifest, :catch_failures => true)
-      expect(result.exit_code).to eq(2)
-      expect(result.output).to include 'use of SNMPv2 is not recommended!'
-      expect(result.output).to include 'Community must have 8 or more than 8 characters!'
-      expect(result.output).to include 'Community must contain [a-z],[A-Z],[0-9] characters and special characters!'
-     end
-
-    it 'should re-run without changes' do
-      result = apply_manifest(manifest, :catch_changes => true)
-      expect(result.exit_code).to be_zero
-      expect(result.output).to include 'use of SNMPv2 is not recommended!'
-      expect(result.output).to include 'Community must have 8 or more than 8 characters!'
-      expect(result.output).to include 'Community must contain [a-z],[A-Z],[0-9] characters and special characters!'
-    end
-  end
-
 end
