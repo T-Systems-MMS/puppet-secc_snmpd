@@ -23,7 +23,9 @@ class secc_snmpd (
   validate_bool($::secc_snmpd::v2_enabled)
   if $::secc_snmpd::v2_enabled {
     # Req1: warning if v2 enabled
-    warning('use of SNMPv2 is not recommended!')
+    notify {'use of SNMPv2 is not recommended!':
+      loglevel => warning,
+    }
 
     if $::secc_snmpd::v2_community == undef {
       fail('v2_community is needed')
