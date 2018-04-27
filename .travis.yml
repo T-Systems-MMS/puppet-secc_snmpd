@@ -1,0 +1,20 @@
+---
+language: ruby
+sudo: required
+services:
+  - docker
+bundler_args: --without system_tests
+script:
+  - gem install bundler
+  - bundle install --path vendor/bundle
+  - bundle exec rake
+matrix:
+  include:
+  - rvm: 2.1.8
+    env: PUPPET_VERSION="~> 3.0" BEAKER_set="docker-centos6"
+  - rvm: default
+    env: PUPPET_VERSION="~> 4.0" BEAKER_set="docker-centos6-pc1"
+  - rvm: 2.1.8
+    env: PUPPET_VERSION="~> 3.0" BEAKER_set="docker-centos7"
+  - rvm: default
+    env: PUPPET_VERSION="~> 4.0" BEAKER_set="docker-centos7-pc1"

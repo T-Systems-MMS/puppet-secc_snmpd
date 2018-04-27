@@ -1,10 +1,10 @@
 HOSTS:
-  centos-72-x64-ag1:
+  centos-7-pc1:
     roles:
       - agent
     platform: el-7-x86_64
-    image: docker.internal.mms-support.de/centos:7proxy
     hypervisor: docker
+    image: centos:7
     docker_cmd: '["/sbin/init"]'
     docker_preserve_image: true
     docker_image_commands:
@@ -15,4 +15,3 @@ HOSTS:
       - '/opt/puppetlabs/puppet/bin/puppet module install puppetlabs-concat'
 CONFIG:
   type: foss
-  package_proxy: http://proxy.mms-dresden.de:8080

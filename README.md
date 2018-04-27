@@ -1,7 +1,6 @@
 # SNMP Module
 
-[build_status]: https://teamcity.internal.mms-support.de/app/rest/builds/buildType:(id:SeccSnmpd_Beaker),branch:master/statusIcon  "Build Status"
-![build status][build_status]
+[![Build Status](https://travis-ci.org/T-Systems-MMS/puppet-secc_snmpd.svg?branch=master)](https://travis-ci.org/T-Systems-MMS/puppet-secc_snmpd)
 
 ## Table of Contents
 

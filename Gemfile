@@ -2,14 +2,18 @@ source 'https://rubygems.org'
 
 group :acceptance do
   gem 'nokogiri', '< 1.7.0'
-  gem 'net-ssh', '2.9.3.beta1'
+  gem 'net-ssh'
   gem 'pry'
   gem 'beaker-rspec'
   gem 'jruby-pageant'
   gem 'ffaker'
   gem 'highline'
   gem 'rake', '~> 10.1.0'
-  gem 'puppet', '< 4.9.0'
+  if puppetversion = ENV['PUPPET_VERSION']
+    gem 'puppet', puppetversion
+  else
+    gem 'puppet'
+  end
   gem 'puppetlabs_spec_helper'
   gem 'puppet-lint', '1.1.0'
   gem 'puppet-syntax'

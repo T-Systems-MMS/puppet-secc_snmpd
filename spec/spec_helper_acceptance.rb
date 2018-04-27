@@ -13,8 +13,6 @@ RSpec.configure do |c|
   c.before :suite do
     # Install module to all hosts
     hosts.each do |host|
-      host.add_env_var('HTTP_PROXY', 'http://proxy.mms-dresden.de:8080')
-      host.add_env_var('HTTPS_PROXY', 'http://proxy.mms-dresden.de:8080')
 
       install_puppet_on(host)
 
