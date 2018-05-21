@@ -1,23 +1,28 @@
 {
-  "author": "",
+  "name": "tsystemsmms-secc_snmpd",
+  "version": "1.1.0",
+  "author": "T-Systems Multimedia Solutions GmbH",
+  "summary": "Dieses Modul bietet eine teilweise Abdeckung der SoC Anforderungen für SNMP unter Linux.",
+  "license": "Apache-2.0",
+  "project_page": "https://github.com/T-Systems-MMS/puppet-secc_snmpd",
+  "source": "https://github.com/T-Systems-MMS/puppet-secc_snmpd",
+  "issues": "https://github.com/T-Systems-MMS/puppet-secc_snmpd/issues",
   "dependencies": [
+    { "name": "puppetlabs/stdlib", "version_requirement": ">= 3.2.0 < 5.0.0" },
+    { "name": "puppetlabs/concat", "version_requirement": ">= 1.0.0 < 5.0.0" }
+  ],
+  "operatingsystem_support": [
     {
-      "name": "puppetlabs/stdlib"
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [ "6", "7" ]
     },
     {
-      "name": "puppetlabs/concat"
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [ "6", "7" ]
     }
   ],
-  "license": "",
-  "name": "secc_snmpd",
-  "operatingsystem_support": [
-    "CentOS7",
-    "RHEL7"
+  "requirements": [
+    { "name": "puppet", "version_requirement": ">= 3.0.0 < 5.0.0" }
   ],
-  "project_page": "",
-  "requirements": [],
-  "source": "",
-  "summary": "Dieses Modul bietet eine teilweise Abdeckung der SoC Anforderungen für SNMP unter Linux.",
-  "tags": [],
-  "version": "1.1.0"
+  "tags": [ "snmp", "net-snmp", "monitoring" ]
 }
