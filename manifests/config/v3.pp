@@ -9,9 +9,7 @@ define secc_snmpd::config::v3 (
       loglevel => warning,
     }
 
-    if $_securitycheck == undef {
-      $_securitycheck = false
-    }
+    unless defined('$_securitycheck') { $_securitycheck = true }
   }
 
   # verification password composition
@@ -20,9 +18,7 @@ define secc_snmpd::config::v3 (
       loglevel => warning,
     }
 
-    if $_securitycheck == undef {
-      $_securitycheck = false
-    }
+    unless defined('$_securitycheck') { $_securitycheck = true }
   }
 
   # verification passphrase length
@@ -31,9 +27,7 @@ define secc_snmpd::config::v3 (
       loglevel => warning,
     }
 
-    if $_securitycheck == undef {
-      $_securitycheck = false
-    }
+    unless defined('$_securitycheck') { $_securitycheck = true }
   }
 
   # verification passphrase composition
@@ -42,9 +36,7 @@ define secc_snmpd::config::v3 (
       loglevel => warning,
     }
 
-    if $_securitycheck == undef {
-      $_securitycheck = false
-    }
+    unless defined('$_securitycheck') { $_securitycheck = true }
   }
 
   if $v3_password == $v3_passphrase {
@@ -52,12 +44,10 @@ define secc_snmpd::config::v3 (
       loglevel => warning,
     }
 
-    if $_securitycheck == undef {
-      $_securitycheck = false
-    }
+    unless defined('$_securitycheck') { $_securitycheck = true }
   }
 
-  if $_securitycheck == false and $::secc_snmpd::enforce_password_security == true {
+  if defined('$_securitycheck') and $_securitycheck and $::secc_snmpd::enforce_password_security {
     notify {'Security parameters for Password or Passphrase not met, not configuring user!':
       loglevel => err,
     }
