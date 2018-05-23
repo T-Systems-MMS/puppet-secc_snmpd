@@ -20,7 +20,19 @@ class secc_snmpd (
   $dlmod_enabled             = $::secc_snmpd::params::dlmod_enabled,
 ) inherits secc_snmpd::params {
 
-  validate_bool($::secc_snmpd::v2_enabled)
+  # true if $::puppetversion < '4.0.0'
+  if versioncmp($::puppetversion, '4.0.0') < 0 {
+    validate_bool($::secc_snmpd::v2_enabled)
+    validate_bool($::secc_snmpd::v3_enabled)
+    validate_bool($::secc_snmpd::enforce_password_security)
+    validate_bool($::secc_snmpd::dlmod_enabled)
+} else {
+    validate_legacy('Boolean', 'validate_bool', $::secc_snmpd::v2_enabled)
+    validate_legacy('Boolean', 'validate_bool', $::secc_snmpd::v3_enabled)
+    validate_legacy('Boolean', 'validate_bool', $::secc_snmpd::enforce_password_security)
+    validate_legacy('Boolean', 'validate_bool', $::secc_snmpd::dlmod_enabled)
+  }
+
   if $::secc_snmpd::v2_enabled {
     # Req1: warning if v2 enabled
     notify {'use of SNMPv2 is not recommended!':
@@ -35,7 +47,6 @@ class secc_snmpd (
     }
   }
 
-  validate_bool($::secc_snmpd::v3_enabled)
   if $::secc_snmpd::v3_enabled {
     if $::secc_snmpd::v3_user == undef {
       fail('v3_user is needed')
@@ -47,10 +58,6 @@ class secc_snmpd (
       fail('v3_passphrase is needed')
     }
   }
-
-  validate_bool($::secc_snmpd::enforce_password_security)
-
-  validate_bool($::secc_snmpd::dlmod_enabled)
 
   contain secc_snmpd::install
 
