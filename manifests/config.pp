@@ -65,7 +65,7 @@ class secc_snmpd::config {
         loglevel => 'warning',
       }
   }
-  
+
   if $::secc_snmpd::trap_enabled {
     file { '/etc/snmp/snmptrapd.conf':
       ensure  => present,
