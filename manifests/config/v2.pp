@@ -9,9 +9,7 @@ define secc_snmpd::config::v2 (
       loglevel => warning,
     }
 
-    if $_securitycheck == undef {
-      $_securitycheck = false
-    }
+    unless defined('$_securitycheck') { $_securitycheck = true }
   }
 
   # verification password composition
@@ -20,12 +18,10 @@ define secc_snmpd::config::v2 (
       loglevel => warning,
     }
 
-    if $_securitycheck == undef {
-      $_securitycheck = false
-    }
+    unless defined('$_securitycheck') { $_securitycheck = true }
   }
 
-  if $_securitycheck == false and $::secc_snmpd::enforce_password_security == true {
+  if defined('$_securitycheck') and $_securitycheck and $::secc_snmpd::enforce_password_security {
     notify {'Security parameters for Community not met, not configuring community!':
       loglevel => err,
     }

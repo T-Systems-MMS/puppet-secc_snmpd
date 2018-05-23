@@ -7,11 +7,5 @@ HOSTS:
     image: centos:7
     docker_cmd: '["/sbin/init"]'
     docker_preserve_image: true
-    docker_image_commands:
-      - 'yum localinstall -y https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm'
-      - 'yum install -y puppet-agent'
-      - 'source /etc/profile.d/puppet-agent.sh'
-      - '/opt/puppetlabs/puppet/bin/puppet module install puppetlabs-stdlib'
-      - '/opt/puppetlabs/puppet/bin/puppet module install puppetlabs-concat'
 CONFIG:
-  type: foss
+  type: aio
