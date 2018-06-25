@@ -20,10 +20,6 @@ Dieses Modul bietet eine teilweise Abdeckung der SoC Anforderungen für SNMP unt
 
 Das Modul kann SNMP auf einem Linux System installieren und konfigurieren.
 
-## Grundlage der SoC Requirements
-
-- 3.45 SNMP
-
 ## Erfüllte Requirements
 
 - 3.45/1 Es muss SNMP in der Version 3 verwendet werden.
@@ -40,6 +36,9 @@ Das Modul kann SNMP auf einem Linux System installieren und konfigurieren.
 - 3.45/1, 3.45/6 kann mit dem Parameter ```$v2_enabled = true``` umgangen werden
 - 3.45/5 kann mit dem Parameter ```$enforce_password_security = false``` umgangen werden
 
+## zu beachten
+Das Requirement 3.45/2 kann nicht konfigurativ erfüllt werden. Es bezieht sich auf [einen alten Bug](https://www.kb.cert.org/vuls/id/878044), der in aktuellen Versionen gelöst ist (Net-SNMP versions 5.4.1.1, 5.3.2.1, 5.2.4.1, 5.1.4.1, 5.0.11.1 and UCD-SNMP 4.2.7.1).
+
 ## Usage
 
 - Generell wird durch dieses Modul SNMP v1 und v2 deaktiviert und v3 unter Nutzung eines Passworts und einer Passphrase aktiviert.
@@ -51,7 +50,7 @@ Das Modul kann SNMP auf einem Linux System installieren und konfigurieren.
 
 ## Reference
 
-- Anforderungen stammen aus [SoC Requirements 3_45_SNMP_v2.0.pdf](https://psa-portal.telekom.de/intranet-ui/public/releases/documents.xhtml?style=normal&domain=56828&source=login#)
+- Anforderungen stammen aus den technischen Sicherheitsanforderungen [3_45_SNMP.pdf](https://www.telekom.com/psa) des PSA Verfahrens 
 
 ## Limitations
 
