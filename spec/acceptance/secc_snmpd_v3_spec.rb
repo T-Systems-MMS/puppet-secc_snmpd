@@ -6,6 +6,7 @@ describe 'Class secc_snmpd' do
     username = FFaker::String.from_regexp(/[a-zA-Z0-9]{8}/)
     password = FFaker::String.from_regexp(/\w{8}aA2!/)
     passphrase = FFaker::String.from_regexp(/\w{8}aA2!/)
+    listen_ip = "127.0.0.1"
 
     command("service snmpd stop")
 
@@ -18,6 +19,7 @@ describe 'Class secc_snmpd' do
         v3_user                   => '#{username}',
         v3_password               => '#{password}',
         v3_passphrase             => '#{passphrase}',
+        listen_address            => '#{listen_ip}',
       }
     EOS
     }
@@ -43,8 +45,8 @@ describe 'Class secc_snmpd' do
       it { is_expected.to be_file }
       it { is_expected.to be_owned_by 'root' }
       it { is_expected.to be_grouped_into 'root' }
-      it { is_expected.to be_mode 644 }
-      its(:content) { is_expected.to include 'OPTIONS="-LS0-5d -Lf /dev/null -p /var/run/snmpd.pid"' }
+      it { is_expected.to be_mode 640 }
+      its(:content) { is_expected.to include 'OPTIONS="-LS0-5d -Lf /dev/null -p /var/run/snmpd.pid -x 127.0.0.1 -x 127.0.0.1"' }
     end
 
     describe file('/etc/snmp/snmpd.conf') do
