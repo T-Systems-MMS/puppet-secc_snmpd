@@ -4,6 +4,7 @@ require 'ffaker'
 describe 'Class secc_snmpd' do
   context 'snmpv2 config' do
     community = FFaker::String.from_regexp(/\w{8}aA2!/)
+    listen_ip = "127.0.0.1"
 
     command("service snmpd stop")
 
@@ -17,6 +18,7 @@ describe 'Class secc_snmpd' do
         v3_enabled                => false,
         v2_community              => '#{community}',
         v2_host                   => 'localhost',
+        listen_address            => '#{listen_ip}',
       }
     EOS
     }
@@ -42,8 +44,8 @@ describe 'Class secc_snmpd' do
       it { is_expected.to be_file }
       it { is_expected.to be_owned_by 'root' }
       it { is_expected.to be_grouped_into 'root' }
-      it { is_expected.to be_mode 644 }
-      its(:content) { is_expected.to include 'OPTIONS="-LS0-5d -Lf /dev/null -p /var/run/snmpd.pid"' }
+      it { is_expected.to be_mode 640 }
+      its(:content) { is_expected.to include 'OPTIONS="-LS0-5d -Lf /dev/null -p /var/run/snmpd.pid -x 127.0.0.1 -x 127.0.0.1"' }
     end
 
     describe file('/etc/snmp/snmpd.conf') do
