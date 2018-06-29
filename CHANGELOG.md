@@ -1,5 +1,7 @@
 # CHANGELOG
 ## [UNRELEASED]
+* Add variable `listen_address` - this is set to $(ipaddress) by default so snmp only listens on localhost and defined interfaces
+
 ## [1.2.0] - 2018-06-25
 ### Changed
 * `CONFIG.type` is now set to "aio" for nodesets using the AllInOne Installer ("Puppet Collections")
