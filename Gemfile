@@ -5,6 +5,7 @@ group :acceptance do
   gem 'net-ssh'
   gem 'pry'
   gem 'beaker-rspec'
+  gem 'beaker', '~> 3.7'
   gem 'jruby-pageant'
   gem 'ffaker'
   gem 'highline'
