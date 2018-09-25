@@ -10,12 +10,8 @@ script:
   - bundle exec rake
 matrix:
   include:
-  - rvm: 2.1.8
-    env: PUPPET_VERSION="~> 3.0" BEAKER_set="docker-centos6"
   - rvm: default
     env: PUPPET_VERSION="~> 4.0" BEAKER_set="docker-centos6-pc1"
-  - rvm: 2.1.8
-    env: PUPPET_VERSION="~> 3.0" BEAKER_set="docker-centos7"
   - rvm: default
     env: PUPPET_VERSION="~> 4.0" BEAKER_set="docker-centos7-pc1" DEPLOY_TO_FORGE=yes
 deploy:
