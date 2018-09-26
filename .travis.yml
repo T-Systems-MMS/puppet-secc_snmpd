@@ -8,6 +8,8 @@ script:
   - gem install bundler
   - bundle install --path vendor/bundle
   - bundle exec rake
+before_deploy:
+  - rvm $(travis_internal_ruby) --fuzzy do ruby -S gem install puppet -v 5.5.6
 matrix:
   include:
   - rvm: default
