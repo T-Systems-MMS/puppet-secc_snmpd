@@ -67,12 +67,13 @@ describe 'Class secc_snmpd' do
       it { is_expected.to be_mode 600 }
       its(:content) { is_expected.to contain "usmUser.*0x.*(#{username}|#{username.each_byte.map { |b| b.to_s(16) }.join})" }
     end
-  end
 
     describe port(161) do
       it { should be_listening.on('127.0.0.1').with('udp') }
       it { should be_listening.on(listen_ip).with('udp') }
     end
+
+  end
 
   context 'default snmpv3 config, weak passwords and enforcing' do
 
