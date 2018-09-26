@@ -19,3 +19,7 @@ group :acceptance do
   gem 'puppet-lint', '1.1.0'
   gem 'puppet-syntax'
 end
+
+group :tools do
+  gem 'github_changelog_generator'
+end
