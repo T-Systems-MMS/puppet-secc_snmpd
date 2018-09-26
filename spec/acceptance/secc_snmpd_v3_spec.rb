@@ -69,6 +69,11 @@ describe 'Class secc_snmpd' do
     end
   end
 
+    describe port(161) do
+      it { should be_listening.on('127.0.0.1').with('udp') }
+      it { should be_listening.on(listen_ip).with('udp') }
+    end
+
   context 'default snmpv3 config, weak passwords and enforcing' do
 
     it 'should not accept weak password/passphrase' do

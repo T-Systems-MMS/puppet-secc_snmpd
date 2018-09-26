@@ -59,9 +59,16 @@ describe 'Class secc_snmpd' do
       its(:content) { is_expected.to include "rocommunity #{community}" }
     end
 
+
+    describe port(161) do
+      it { should be_listening.on('127.0.0.1').with('udp') }
+      it { should be_listening.on(listen_ip).with('udp') }
+    end
+
+
   end
 
-  context 'snmpv2 config with weak passwords and enfoorcing' do
+  context 'snmpv2 config with weak passwords and enforcing' do
     community = FFaker::String.from_regexp(/\w{6}/)
 
     command("service snmpd stop")
