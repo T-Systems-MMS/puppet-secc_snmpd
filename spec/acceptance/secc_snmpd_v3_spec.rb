@@ -6,7 +6,7 @@ describe 'Class secc_snmpd' do
     username = FFaker::String.from_regexp(/[a-zA-Z0-9]{8}/)
     password = FFaker::String.from_regexp(/\w{8}aA2!/)
     passphrase = FFaker::String.from_regexp(/\w{8}aA2!/)
-    listen_ip = "127.0.0.1"
+    listen_ip = "127.0.0.2"
 
     command("service snmpd stop")
 
@@ -46,7 +46,7 @@ describe 'Class secc_snmpd' do
       it { is_expected.to be_owned_by 'root' }
       it { is_expected.to be_grouped_into 'root' }
       it { is_expected.to be_mode 640 }
-      its(:content) { is_expected.to include 'OPTIONS="-LS0-5d -Lf /dev/null -p /var/run/snmpd.pid -x 127.0.0.1 -x 127.0.0.1"' }
+      its(:content) { is_expected.to include 'OPTIONS="-LS0-5d -Lf /dev/null -p /var/run/snmpd.pid 127.0.0.1 127.0.0.2"' }
     end
 
     describe file('/etc/snmp/snmpd.conf') do
@@ -67,6 +67,12 @@ describe 'Class secc_snmpd' do
       it { is_expected.to be_mode 600 }
       its(:content) { is_expected.to contain "usmUser.*0x.*(#{username}|#{username.each_byte.map { |b| b.to_s(16) }.join})" }
     end
+
+    describe port(161) do
+      it { should be_listening.on('127.0.0.1').with('udp') }
+      it { should be_listening.on(listen_ip).with('udp') }
+    end
+
   end
 
   context 'default snmpv3 config, weak passwords and enforcing' do
