@@ -1,7 +1,7 @@
 # CHANGELOG
 ## [UNRELEASED]
 
-## [2.0.0]
+## [2.0.0] - 2018-09-26
 ### Added
 * Add variable `listen_address` - this is set to `$(ipaddress)` by default so snmp only listens on localhost and defined interfaces
 
