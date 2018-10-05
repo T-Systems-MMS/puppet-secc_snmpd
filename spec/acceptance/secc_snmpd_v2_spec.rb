@@ -89,9 +89,9 @@ describe 'Class secc_snmpd' do
       result = apply_manifest(manifest, :catch_failures => true)
       expect(result.exit_code).to eq(2)
       expect(result.output).to include 'Warning: use of SNMPv2 is not recommended!'
-      expect(result.output).to include 'Warning: Community must have 8 or more than 8 characters!'
-      expect(result.output).to include 'Warning: Community must contain [a-z],[A-Z],[0-9] characters and special characters!'
-      expect(result.output).to include 'Error: Security parameters for Community not met, not configuring community!'
+      expect(result.output).to include "Warning: v2 community #{community}_localhost - Community must have 8 or more than 8 characters!"
+      expect(result.output).to include "Warning: v2 community #{community}_localhost - Community must contain [a-z],[A-Z],[0-9] characters and special characters!"
+      expect(result.output).to include "Error: v2 community #{community}_localhost - Security parameters for Community not met, not configuring community!"
     end
 
     # no re-run check, because constant error with wrong snmpv2
@@ -126,8 +126,8 @@ describe 'Class secc_snmpd' do
       result = apply_manifest(manifest, :catch_failures => true)
       expect(result.exit_code).to eq(2)
       expect(result.output).to include 'Warning: use of SNMPv2 is not recommended!'
-      expect(result.output).to include 'Warning: Community must have 8 or more than 8 characters!'
-      expect(result.output).to include 'Warning: Community must contain [a-z],[A-Z],[0-9] characters and special characters!'
+      expect(result.output).to include "Warning: v2 community #{community}_localhost - Community must have 8 or more than 8 characters!"
+      expect(result.output).to include "Warning: v2 community #{community}_localhost - Community must contain [a-z],[A-Z],[0-9] characters and special characters!"
      end
 
     # no re-run check, because constant error with wrong snmpv2
@@ -154,7 +154,8 @@ describe 'Class secc_snmpd' do
         v2_community              => '#{community}',
         v2_host                   => 'localhost',
         enforce_password_security => false,
-      }~>
+      }
+      
       secc_snmpd::config::v2{ "#{community}_127.0.0.2":
         v2_community => '#{community}',
         v2_host      => '127.0.0.2',
@@ -166,8 +167,8 @@ describe 'Class secc_snmpd' do
       result = apply_manifest(manifest, :catch_failures => true)
       expect(result.exit_code).to eq(2)
       expect(result.output).to include 'Warning: use of SNMPv2 is not recommended!'
-      expect(result.output).to include 'Warning: Community must have 8 or more than 8 characters!'
-      expect(result.output).to include 'Warning: Community must contain [a-z],[A-Z],[0-9] characters and special characters!'
+      expect(result.output).to include "Warning: v2 community #{community}_localhost - Community must have 8 or more than 8 characters!"
+      expect(result.output).to include "Warning: v2 community #{community}_localhost - Community must contain [a-z],[A-Z],[0-9] characters and special characters!"
      end
 
     # no re-run check, because constant error with wrong snmpv2
