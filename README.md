@@ -14,15 +14,15 @@
 
 ## Overview
 
-This module provides a partial coverage of the SoC conditins for SNMP under Linux.
+This module provides a partial coverage of the SoC conditions for SNMP under Linux.
 
 ## Module Description
 
-The module can install and configure SNMP on a Linux system.
+This module can install and configure SNMP on a Linux system.
 
 ## Fullfilled Requirements
 
-* 3.45/1 SNMP musted be used in version 3.
+* 3.45/1 SNMP must be used in version 3.
   * older version of SNMP do not support secure authentification mechanisms which correspond to today's state of technology
 * 3.45/2 The SNMP Server has to prevent the usage of a too small length of the HMAC
   * many current applications allow the SNMP client to set the length of the HMAC on their own - this represents a potential security vulnerability
