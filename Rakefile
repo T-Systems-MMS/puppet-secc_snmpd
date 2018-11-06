@@ -31,3 +31,11 @@ PuppetLint::RakeTask.new :lint_fix do |configuration|
   configuration.fix = true
   configuration.log_format = ''
 end
+
+desc "Changelog generator"
+begin
+  require 'github_changelog_generator/task'
+  GitHubChangelogGenerator::RakeTask.new :changelog
+rescue LoadError
+  puts '>>>>> GitHub Changelog Generator not loaded, omitting tasks'
+end

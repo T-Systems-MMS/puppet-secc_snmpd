@@ -1,10 +1,26 @@
 # Change Log
 
+## [2.0.1](https://github.com/T-Systems-MMS/puppet-secc_snmpd/tree/2.0.1) (2018-11-06)
+
+[Full Changelog](https://github.com/T-Systems-MMS/puppet-secc_snmpd/compare/2.0.0...2.0.1)
+
+**Closed issues:**
+
+- $::secc\_snmpd::enforce\_password\_security is not working anymore [\#4](https://github.com/T-Systems-MMS/puppet-secc_snmpd/issues/4)
+- README should be english [\#2](https://github.com/T-Systems-MMS/puppet-secc_snmpd/issues/2)
+
+**Merged pull requests:**
+
+- fixed typos [\#10](https://github.com/T-Systems-MMS/puppet-secc_snmpd/pull/10) ([szEvEz](https://github.com/szEvEz))
+- extend notify to allow for multiple user/community definitions [\#9](https://github.com/T-Systems-MMS/puppet-secc_snmpd/pull/9) ([schurzi](https://github.com/schurzi))
+- updated german documentation to english [\#8](https://github.com/T-Systems-MMS/puppet-secc_snmpd/pull/8) ([szEvEz](https://github.com/szEvEz))
+
 ## [2.0.0](https://github.com/T-Systems-MMS/puppet-secc_snmpd/tree/2.0.0) (2018-09-26)
 [Full Changelog](https://github.com/T-Systems-MMS/puppet-secc_snmpd/compare/1.2.0...2.0.0)
 
 **Merged pull requests:**
 
+- add github changelog generator and generated CL [\#7](https://github.com/T-Systems-MMS/puppet-secc_snmpd/pull/7) ([rndmh3ro](https://github.com/rndmh3ro))
 - fix incorrect usage of listen address [\#6](https://github.com/T-Systems-MMS/puppet-secc_snmpd/pull/6) ([rndmh3ro](https://github.com/rndmh3ro))
 - add listen addresses [\#3](https://github.com/T-Systems-MMS/puppet-secc_snmpd/pull/3) ([rndmh3ro](https://github.com/rndmh3ro))
 
