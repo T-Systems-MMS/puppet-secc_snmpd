@@ -90,12 +90,12 @@ describe 'Class secc_snmpd' do
       EOS
       result = apply_manifest(manifest, :catch_failures => true)
       expect(result.exit_code).to eq(2)
-      expect(result.output).to include 'Warning: Password must have 8 or more than 8 characters!'
-      expect(result.output).to include 'Warning: Password must contain [a-z],[A-Z],[0-9] characters and special characters!'
-      expect(result.output).to include 'Warning: Passphrase must have 8 or more than 8 characters!'
-      expect(result.output).to include 'Warning: Passphrase must contain [a-z],[A-Z],[0-9] characters and special characters!'
-      expect(result.output).to include 'Warning: Password and Passphrase are identical!'
-      expect(result.output).to include 'Error: Security parameters for Password or Passphrase not met, not configuring user!'
+      expect(result.output).to include 'Warning: v3 user testuser - Password must have 8 or more than 8 characters!'
+      expect(result.output).to include 'Warning: v3 user testuser - Password must contain [a-z],[A-Z],[0-9] characters and special characters!'
+      expect(result.output).to include 'Warning: v3 user testuser - Passphrase must have 8 or more than 8 characters!'
+      expect(result.output).to include 'Warning: v3 user testuser - Passphrase must contain [a-z],[A-Z],[0-9] characters and special characters!'
+      expect(result.output).to include 'Warning: v3 user testuser - Password and Passphrase are identical!'
+      expect(result.output).to include 'Error: v3 user testuser - Security parameters for Password or Passphrase not met, not configuring user!'
     end
 
     describe file('/etc/snmp/snmpd.conf') do
@@ -120,11 +120,11 @@ describe 'Class secc_snmpd' do
       EOS
       result = apply_manifest(manifest, :catch_failures => true)
       expect(result.exit_code).to eq(2)
-      expect(result.output).to include 'Warning: Password must have 8 or more than 8 characters!'
-      expect(result.output).to include 'Warning: Password must contain [a-z],[A-Z],[0-9] characters and special characters!'
-      expect(result.output).to include 'Warning: Passphrase must have 8 or more than 8 characters!'
-      expect(result.output).to include 'Warning: Passphrase must contain [a-z],[A-Z],[0-9] characters and special characters!'
-      expect(result.output).to include 'Warning: Password and Passphrase are identical!'
+      expect(result.output).to include "Warning: v3 user testuser - Password must have 8 or more than 8 characters!"
+      expect(result.output).to include "Warning: v3 user testuser - Password must contain [a-z],[A-Z],[0-9] characters and special characters!"
+      expect(result.output).to include "Warning: v3 user testuser - Passphrase must have 8 or more than 8 characters!"
+      expect(result.output).to include "Warning: v3 user testuser - Passphrase must contain [a-z],[A-Z],[0-9] characters and special characters!"
+      expect(result.output).to include "Warning: v3 user testuser - Password and Passphrase are identical!"
     end
 
     describe file('/etc/snmp/snmpd.conf') do
@@ -217,11 +217,53 @@ describe 'Class secc_snmpd' do
     it 'should run without errors' do
       result = apply_manifest(manifest, :catch_failures => true)
       expect(result.exit_code).to eq(2)
-      expect(result.output).to include 'Warning: Password must contain [a-z],[A-Z],[0-9] characters and special characters!'
-      expect(result.output).to include 'Warning: Passphrase must contain [a-z],[A-Z],[0-9] characters and special characters!'
+      expect(result.output).to include "Warning: v3 user #{username} - Password must contain [a-z],[A-Z],[0-9] characters and special characters!"
+      expect(result.output).to include "Warning: v3 user #{username} - Passphrase must contain [a-z],[A-Z],[0-9] characters and special characters!"
      end
 
     # no re-run check, because constant error with weak password
+
+  end
+
+    context 'snmpv3 config with weak passwords and multiple user' do
+    username = FFaker::String.from_regexp(/[a-zA-Z0-9]{6}/)
+    password = FFaker::String.from_regexp(/\w{8}/)
+    passphrase = FFaker::String.from_regexp(/\w{8}/)
+
+    command("service snmpd stop")
+
+    let(:manifest) {
+    <<-EOS
+      class { 'secc_snmpd':
+        service                   => 'test',
+        syslocation               => 'at home',
+        syscontact                => 'root@me.you',
+        v3_user                   => '#{username}',
+        v3_password               => '#{password}',
+        v3_passphrase             => '#{passphrase}',
+        enforce_password_security => false,
+      }
+
+      secc_snmpd::config::v3{ '#{username}1':
+        v3_password   => '#{password}',
+        v3_passphrase => '#{passphrase}',
+      }
+    EOS
+    }
+
+    it 'should run without errors' do
+      result = apply_manifest(manifest, :catch_failures => true)
+      expect(result.exit_code).to eq(2)
+      expect(result.output).to include "Warning: v3 user #{username} - Password must contain [a-z],[A-Z],[0-9] characters and special characters!"
+      expect(result.output).to include "Warning: v3 user #{username} - Passphrase must contain [a-z],[A-Z],[0-9] characters and special characters!"
+     end
+
+    # no re-run check, because constant error with weak password
+
+    describe file('/etc/snmp/snmpd.conf') do
+      its(:content) { is_expected.to include "rouser #{username} priv" }
+      its(:content) { is_expected.to include "rouser #{username}1 priv" }
+    end
 
   end
 end

@@ -5,7 +5,7 @@ define secc_snmpd::config::v3 (
   # Req4,5: Password security
   # verification password length
   if size($v3_password) < 8 {
-    notify {'Password must have 8 or more than 8 characters!':
+    notify {"v3 user ${title} - Password must have 8 or more than 8 characters!":
       loglevel => warning,
     }
 
@@ -14,7 +14,7 @@ define secc_snmpd::config::v3 (
 
   # verification password composition
   if !($v3_password =~ /(^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W))/) {
-    notify {'Password must contain [a-z],[A-Z],[0-9] characters and special characters!':
+    notify {"v3 user ${title} - Password must contain [a-z],[A-Z],[0-9] characters and special characters!":
       loglevel => warning,
     }
 
@@ -23,7 +23,7 @@ define secc_snmpd::config::v3 (
 
   # verification passphrase length
   if size($v3_passphrase) < 8 {
-    notify {'Passphrase must have 8 or more than 8 characters!':
+    notify {"v3 user ${title} - Passphrase must have 8 or more than 8 characters!":
       loglevel => warning,
     }
 
@@ -32,7 +32,7 @@ define secc_snmpd::config::v3 (
 
   # verification passphrase composition
   if !($v3_passphrase =~ /(^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W))/) {
-    notify {'Passphrase must contain [a-z],[A-Z],[0-9] characters and special characters!':
+    notify {"v3 user ${title} - Passphrase must contain [a-z],[A-Z],[0-9] characters and special characters!":
       loglevel => warning,
     }
 
@@ -40,7 +40,7 @@ define secc_snmpd::config::v3 (
   }
 
   if $v3_password == $v3_passphrase {
-    notify {'Password and Passphrase are identical!':
+    notify {"v3 user ${title} - Password and Passphrase are identical!":
       loglevel => warning,
     }
 
@@ -48,7 +48,7 @@ define secc_snmpd::config::v3 (
   }
 
   if defined('$_securitycheck') and $_securitycheck and $::secc_snmpd::enforce_password_security {
-    notify {'Security parameters for Password or Passphrase not met, not configuring user!':
+    notify {"v3 user ${title} - Security parameters for Password or Passphrase not met, not configuring user!":
       loglevel => err,
     }
   } else {
