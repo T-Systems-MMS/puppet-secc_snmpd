@@ -15,6 +15,7 @@ class secc_snmpd (
   $v3_user                   = $::secc_snmpd::params::v3_user,
   $v3_password               = $::secc_snmpd::params::v3_password,
   $v3_passphrase             = $::secc_snmpd::params::v3_passphrase,
+  $listen_address            = $::secc_snmpd::params::listen_address,
   $trap_enabled              = $::secc_snmpd::params::trap_enabled,
   $enforce_password_security = $::secc_snmpd::params::enforce_password_security,
   $dlmod_enabled             = $::secc_snmpd::params::dlmod_enabled,

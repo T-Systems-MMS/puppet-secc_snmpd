@@ -5,4 +5,4 @@
 ###################################
 
 # snmpd command line options
-OPTIONS="-LS0-5d -Lf /dev/null -p /var/run/snmpd.pid"
+OPTIONS="-LS0-5d -Lf /dev/null -p /var/run/snmpd.pid 127.0.0.1 <%= scope['::secc_snmpd::listen_address'] %>"

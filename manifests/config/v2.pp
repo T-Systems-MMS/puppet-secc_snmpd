@@ -5,7 +5,7 @@ define secc_snmpd::config::v2 (
   # Req4,5: Password security
   # verification password length
   if size($v2_community) < 8 {
-    notify {'Community must have 8 or more than 8 characters!':
+    notify {"v2 community ${title} - Community must have 8 or more than 8 characters!":
       loglevel => warning,
     }
 
@@ -14,7 +14,7 @@ define secc_snmpd::config::v2 (
 
   # verification password composition
   if !($v2_community =~ /(^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W))/) {
-    notify {'Community must contain [a-z],[A-Z],[0-9] characters and special characters!':
+    notify {"v2 community ${title} - Community must contain [a-z],[A-Z],[0-9] characters and special characters!":
       loglevel => warning,
     }
 
@@ -22,7 +22,7 @@ define secc_snmpd::config::v2 (
   }
 
   if defined('$_securitycheck') and $_securitycheck and $::secc_snmpd::enforce_password_security {
-    notify {'Security parameters for Community not met, not configuring community!':
+    notify {"v2 community ${title} - Security parameters for Community not met, not configuring community!":
       loglevel => err,
     }
   } else {

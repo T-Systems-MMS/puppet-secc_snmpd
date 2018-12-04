@@ -1,0 +1,18 @@
+HOSTS:
+  centos-7-pc1:
+    roles:
+      - agent
+    platform: el-7-x86_64
+    hypervisor: docker
+    image: centos:7
+    docker_cmd: '["/sbin/init"]'
+    docker_preserve_image: true
+    docker_buildargs:
+      http_proxy: http://proxy.mms-dresden.de:8080
+      https_proxy: http://proxy.mms-dresden.de:8080
+CONFIG:
+  type: aio
+  host_env:
+    HTTP_PROXY: http://proxy.mms-dresden.de:8080
+    HTTPS_PROXY: http://proxy.mms-dresden.de:8080
+  package_proxy: http://proxy.mms-dresden.de:8080

@@ -1,4 +1,5 @@
 class secc_snmpd::params {
+  $listen_address             = $::ipaddress
   $trap_enabled               = false
   $v2_enabled                 = false
   $v3_enabled                 = true
