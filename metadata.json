@@ -1,6 +1,6 @@
 {
   "name": "tsystemsmms-secc_snmpd",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "author": "T-Systems Multimedia Solutions GmbH",
   "summary": "Dieses Modul bietet eine teilweise Abdeckung der SoC Anforderungen für SNMP unter Linux.",
   "license": "Apache-2.0",

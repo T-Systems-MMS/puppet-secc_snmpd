@@ -1,7 +1,15 @@
 # Change Log
 
-## [2.0.1](https://github.com/T-Systems-MMS/puppet-secc_snmpd/tree/2.0.1) (2018-11-06)
+## [2.0.2](https://github.com/T-Systems-MMS/puppet-secc_snmpd/tree/2.0.2) (2018-12-05)
 
+[Full Changelog](https://github.com/T-Systems-MMS/puppet-secc_snmpd/compare/2.0.1...2.0.2)
+
+**Merged pull requests:**
+
+- added compatibility for xcp-ng to secc\_snmpd puppet module [\#13](https://github.com/T-Systems-MMS/puppet-secc_snmpd/pull/13) ([vmpr](https://github.com/vmpr))
+- added XCP as valid operatingsystem [\#12](https://github.com/T-Systems-MMS/puppet-secc_snmpd/pull/12) ([vmpr](https://github.com/vmpr))
+
+## [2.0.1](https://github.com/T-Systems-MMS/puppet-secc_snmpd/tree/2.0.1) (2018-11-06)
 [Full Changelog](https://github.com/T-Systems-MMS/puppet-secc_snmpd/compare/2.0.0...2.0.1)
 
 **Closed issues:**
