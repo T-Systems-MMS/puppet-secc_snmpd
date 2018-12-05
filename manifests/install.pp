@@ -1,7 +1,7 @@
 class secc_snmpd::install {
   package { $::secc_snmpd::params::package_name:
-    ensure    => present,
-    provider  => yum,
+    ensure   => present,
+    provider => yum,
   }
 
   file { '/etc/sysconfig/snmpd':
