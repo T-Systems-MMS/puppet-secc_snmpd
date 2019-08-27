@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 group :acceptance do
-  gem 'nokogiri', '~> 1.8.2'
+  gem 'nokogiri', '~> 1.10.4'
   gem 'net-ssh'
   gem 'pry'
   gem 'beaker-rspec'
