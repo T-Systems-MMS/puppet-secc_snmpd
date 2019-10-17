@@ -9,11 +9,11 @@
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 3.2.0 < 5.0.0"
+      "version_requirement": ">= 3.2.0 < 7.0.0"
     },
     {
       "name": "puppetlabs/concat",
-      "version_requirement": ">= 1.0.0 < 5.0.0"
+      "version_requirement": ">= 1.0.0 < 7.0.0"
     }
   ],
   "operatingsystem_support": [
@@ -21,21 +21,23 @@
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
         "6",
-        "7"
+        "7",
+        "9"
       ]
     },
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
         "6",
-        "7"
+        "7",
+        "8"
       ]
     }
   ],
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 4.0.0 < 6.0.0"
+      "version_requirement": ">= 4.0.0 < 7.0.0"
     }
   ],
   "issues": "https://github.com/T-Systems-MMS/puppet-secc_snmpd/issues",

@@ -18,7 +18,7 @@ stages:
   - spec
   - acceptance
   -
-    if: tag =~ ^v\d
+    if: tag =~ ^\d+.\d+.\d+
     name: deploy
 matrix:
   fast_finish: true
@@ -35,11 +35,44 @@ matrix:
       rvm: 2.5.3
       stage: spec
     -
+      bundler_args:
+      dist: trusty
+      env: PLATFORMS=el_puppet5
+      rvm: 2.5.3
+      stage: acceptance
+      before_script:
+      - bundle exec rake 'litmus:provision_list[travis_el]'
+      - bundle exec bolt command run 'yum install -y epel-release initscripts' --inventoryfile inventory.yaml --nodes='localhost*'
+      - bundle exec rake 'litmus:install_agent[puppet5]'
+      - bundle exec rake litmus:install_module
+      script:
+      - bundle exec rake litmus:acceptance:parallel
+      services: docker
+      sudo: required
+    -
+      bundler_args:
+      dist: trusty
+      env: PLATFORMS=el_puppet6
+      rvm: 2.5.3
+      stage: acceptance
+      before_script:
+      - bundle exec rake 'litmus:provision_list[travis_el]'
+      - bundle exec bolt command run 'yum install -y epel-release initscripts'  --inventoryfile inventory.yaml --nodes='localhost*'
+      - bundle exec rake 'litmus:install_agent[puppet6]'
+      - bundle exec rake litmus:install_module
+      script:
+      - bundle exec rake litmus:acceptance:parallel
+      services: docker
+      sudo: required
+    -
       env: DEPLOY_TO_FORGE=yes
       stage: deploy
-branches:
-  only:
-    - master
-    - /^v\d/
-notifications:
-  email: false
+deploy:
+  provider: puppetforge
+  user: tsystemsmms
+  password:
+    secure: kDb/MphFpzAsYezAQm1pn4m1DoiedeVpLg5FW8lHvyMut/kQQEC+u+8aktD0aaNtRxFqYVNNzV9APRR0a08oHmFXEdS3p+5qwxYxdHPeJue8YP0d7pUQCUZS31zCeltefRhoNy/4jMhxHGLgcSGQ738smKwJOrE+iWBM1BfQ2fMAMzOwfHSBScv/h0XsHA3n4NUTXKY3bSklA5JuzKlTfx9VkKx/R/OQsJssbyLAULEfoAQfZs7hUFeKShXm7d8SJ7ylvjmY/Cn/64vZmyAKe8pats7gK0RHsst3W0j5Ek+ekDF94xRrATGKbTpvmc+d/XV7bz/rouEegIYJ6HmOT9e8C+ZBok/dD7GU/cppnlNWmtv3zb3I4hH07mRA39tkSUke47zV/OtKqHMFwfXM+j3dVnPdJ+aHFfrzXRhsLTmmGh2LldiuLtQnWkLtMCjd/KO6WY+QX8fH/js/4I8buzcYioxC6GT8QA+TKMSav7z3O+HnvQ/1kh6AB1U6xr1u28CIt2O/s6Oyunp3OLyQNF/sXAseCAB5ENHpDEDJu5emM8vdoFZIJbks2DkqfqWbB6jeLPhcgdgaBhcigH1iBE4iaV1DU3P+eIwg8yAM0Mjahxk+JQgKQ6Qo+YQywdgzmbmi9A2HFHVix+AY6E2pw2EMLuyBQaGyt+QJTS89aWY=
+  on:
+    tags: true
+    all_branches: true
+    condition: "$DEPLOY_TO_FORGE = yes"
