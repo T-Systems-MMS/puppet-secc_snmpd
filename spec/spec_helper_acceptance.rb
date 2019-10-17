@@ -70,10 +70,10 @@ else
     endpoint = "http://#{ENV['TARGET_HOST']}:5985/wsman"
 
     opts = {
-        user: user,
-        password: pass,
-        endpoint: endpoint,
-        operation_timeout: 300,
+      user: user,
+      password: pass,
+      endpoint: endpoint,
+      operation_timeout: 300,
     }
 
     winrm = WinRM::Connection.new opts
