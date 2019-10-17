@@ -4,25 +4,47 @@
   "author": "T-Systems Multimedia Solutions GmbH",
   "summary": "Dieses Modul bietet eine teilweise Abdeckung der SoC Anforderungen für SNMP unter Linux.",
   "license": "Apache-2.0",
-  "project_page": "https://github.com/T-Systems-MMS/puppet-secc_snmpd",
   "source": "https://github.com/T-Systems-MMS/puppet-secc_snmpd",
-  "issues": "https://github.com/T-Systems-MMS/puppet-secc_snmpd/issues",
+  "project_page": "https://github.com/T-Systems-MMS/puppet-secc_snmpd",
   "dependencies": [
-    { "name": "puppetlabs/stdlib", "version_requirement": ">= 3.2.0 < 5.0.0" },
-    { "name": "puppetlabs/concat", "version_requirement": ">= 1.0.0 < 5.0.0" }
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 3.2.0 < 5.0.0"
+    },
+    {
+      "name": "puppetlabs/concat",
+      "version_requirement": ">= 1.0.0 < 5.0.0"
+    }
   ],
   "operatingsystem_support": [
     {
       "operatingsystem": "RedHat",
-      "operatingsystemrelease": [ "6", "7" ]
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
     },
     {
       "operatingsystem": "CentOS",
-      "operatingsystemrelease": [ "6", "7" ]
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
     }
   ],
   "requirements": [
-    { "name": "puppet", "version_requirement": ">= 4.0.0 < 6.0.0" }
+    {
+      "name": "puppet",
+      "version_requirement": ">= 4.0.0 < 6.0.0"
+    }
   ],
-  "tags": [ "snmp", "net-snmp", "monitoring" ]
+  "issues": "https://github.com/T-Systems-MMS/puppet-secc_snmpd/issues",
+  "tags": [
+    "snmp",
+    "net-snmp",
+    "monitoring"
+  ],
+  "pdk-version": "1.14.0",
+  "template-url": "pdk-default#1.14.0",
+  "template-ref": "1.14.0-0-g1bf3a4e"
 }
