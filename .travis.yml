@@ -1,21 +1,72 @@
 ---
+dist: xenial
 language: ruby
-sudo: required
-services:
-  - docker
-bundler_args: --without system_tests
+cache: bundler
+before_install:
+  - bundle -v
+  - rm -f Gemfile.lock
+  - gem update --system $RUBYGEMS_VERSION
+  - gem --version
+  - bundle -v
 script:
-  - gem install bundler
-  - bundle install --path vendor/bundle
-  - bundle exec rake
-before_deploy:
-  - rvm $(travis_internal_ruby) --fuzzy do ruby -S gem install puppet -v 5.5.6
+  - 'bundle exec rake $CHECK'
+bundler_args: --without system_tests
+rvm:
+  - 2.5.3
+stages:
+  - static
+  - spec
+  - acceptance
+  -
+    if: tag =~ ^\d+.\d+.\d+
+    name: deploy
 matrix:
+  fast_finish: true
   include:
-  - rvm: default
-    env: PUPPET_VERSION="~> 4.0" BEAKER_set="docker-centos6-pc1"
-  - rvm: default
-    env: PUPPET_VERSION="~> 4.0" BEAKER_set="docker-centos7-pc1" DEPLOY_TO_FORGE=yes
+    -
+      env: CHECK="check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop syntax lint metadata_lint"
+      stage: static
+    -
+      env: PUPPET_GEM_VERSION="~> 5.0" CHECK=parallel_spec
+      rvm: 2.4.5
+      stage: spec
+    -
+      env: PUPPET_GEM_VERSION="~> 6.0" CHECK=parallel_spec
+      rvm: 2.5.3
+      stage: spec
+    -
+      bundler_args:
+      dist: trusty
+      env: PLATFORMS=el_puppet5
+      rvm: 2.5.3
+      stage: acceptance
+      before_script:
+      - bundle exec rake 'litmus:provision_list[travis_el]'
+      - bundle exec bolt command run 'yum install -y epel-release initscripts' --inventoryfile inventory.yaml --nodes='localhost*'
+      - bundle exec rake 'litmus:install_agent[puppet5]'
+      - bundle exec rake litmus:install_module
+      script:
+      - bundle exec rake litmus:acceptance:parallel
+      services: docker
+      sudo: required
+    -
+      bundler_args:
+      dist: trusty
+      env: PLATFORMS=el_puppet6
+      rvm: 2.5.3
+      stage: acceptance
+      before_script:
+      - bundle exec rake 'litmus:provision_list[travis_el]'
+      - bundle exec bolt command run 'yum install -y epel-release initscripts'  --inventoryfile inventory.yaml --nodes='localhost*'
+      - bundle exec rake 'litmus:install_agent[puppet6]'
+      - bundle exec rake litmus:install_module
+      script:
+      - bundle exec rake litmus:acceptance:parallel
+      services: docker
+      sudo: required
+    -
+      env: DEPLOY_TO_FORGE=yes
+      stage: deploy
 deploy:
   provider: puppetforge
   user: tsystemsmms
@@ -25,4 +76,3 @@ deploy:
     tags: true
     all_branches: true
     condition: "$DEPLOY_TO_FORGE = yes"
-

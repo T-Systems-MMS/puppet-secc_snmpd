@@ -3,13 +3,12 @@ require 'ffaker'
 
 describe 'Class secc_snmpd' do
   context 'snmpv2 config' do
-    community = FFaker::String.from_regexp(/\w{8}aA2!/)
-    listen_ip = "127.0.0.2"
+    community = FFaker::String.from_regexp('\w{8}aA2!')
+    listen_ip = '127.0.0.2'
 
-    command("service snmpd stop")
+    command('service snmpd stop')
 
-    let(:manifest) {
-    <<-EOS
+    manifest = <<-EOS
       class { 'secc_snmpd':
         service                   => 'test',
         syslocation               => 'at home',
@@ -21,13 +20,12 @@ describe 'Class secc_snmpd' do
         listen_address            => '#{listen_ip}',
       }
     EOS
-    }
 
-    it 'should run without errors' do
-      result = apply_manifest(manifest, :catch_failures => true)
+    it 'runs without errors' do
+      result = apply_manifest(manifest, catch_failures: true)
       expect(result.exit_code).to eq(2)
-      expect(result.output).to include 'Warning: use of SNMPv2 is not recommended!'
-     end
+      expect(result.stderr).to include 'Warning: use of SNMPv2 is not recommended!'
+    end
 
     # no re-run check, because constant error with snmpv2
 
@@ -36,8 +34,13 @@ describe 'Class secc_snmpd' do
     end
 
     describe service('snmpd') do
-      it { is_expected.to be_enabled }
-      it { is_expected.to be_running }
+      if os[:family] == 'redhat' && os[:release].to_i >= 7
+        it { is_expected.to be_enabled.under('systemd') }
+        it { is_expected.to be_running.under('systemd') }
+      else
+        it { is_expected.to be_enabled }
+        it { is_expected.to be_running }
+      end
     end
 
     describe file('/etc/sysconfig/snmpd') do
@@ -60,19 +63,17 @@ describe 'Class secc_snmpd' do
     end
 
     describe port(161) do
-      it { should be_listening.on('127.0.0.1').with('udp') }
-      it { should be_listening.on(listen_ip).with('udp') }
+      it { is_expected.to be_listening.on('127.0.0.1').with('udp') }
+      it { is_expected.to be_listening.on(listen_ip).with('udp') }
     end
-
   end
 
   context 'snmpv2 config with weak passwords and enforcing' do
-    community = FFaker::String.from_regexp(/\w{6}/)
+    community = FFaker::String.from_regexp('\w{6}')
 
-    command("service snmpd stop")
+    command('service snmpd stop')
 
-    let(:manifest) {
-      <<-EOS
+    manifest = <<-EOS
       class { 'secc_snmpd':
         service                   => 'test',
         syslocation               => 'at home',
@@ -83,32 +84,29 @@ describe 'Class secc_snmpd' do
         v2_host                   => 'localhost',
       }
       EOS
-    }
 
-    it 'should run without errors' do
-      result = apply_manifest(manifest, :catch_failures => true)
+    it 'runs without errors' do
+      result = apply_manifest(manifest, catch_failures: true)
       expect(result.exit_code).to eq(2)
-      expect(result.output).to include 'Warning: use of SNMPv2 is not recommended!'
-      expect(result.output).to include "Warning: v2 community #{community}_localhost - Community must have 8 or more than 8 characters!"
-      expect(result.output).to include "Warning: v2 community #{community}_localhost - Community must contain [a-z],[A-Z],[0-9] characters and special characters!"
-      expect(result.output).to include "Error: v2 community #{community}_localhost - Security parameters for Community not met, not configuring community!"
+      expect(result.stderr).to include 'Warning: use of SNMPv2 is not recommended!'
+      expect(result.stderr).to include "Warning: v2 community #{community}_localhost - Community must have 8 or more than 8 characters!"
+      expect(result.stderr).to include "Warning: v2 community #{community}_localhost - Community must contain [a-z],[A-Z],[0-9] characters and special characters!"
+      expect(result.stderr).to include "Error: v2 community #{community}_localhost - Security parameters for Community not met, not configuring community!"
     end
 
     # no re-run check, because constant error with wrong snmpv2
 
     describe file('/etc/snmp/snmpd.conf') do
-      its(:content) { is_expected.not_to include "rocommunity" }
+      its(:content) { is_expected.not_to include 'rocommunity' }
     end
-
   end
 
   context 'snmpv2 config with weak passwords' do
-    community = FFaker::String.from_regexp(/\w{6}/)
+    community = FFaker::String.from_regexp('\w{6}')
 
-    command("service snmpd stop")
+    command('service snmpd stop')
 
-    let(:manifest) {
-    <<-EOS
+    manifest = <<-EOS
       class { 'secc_snmpd':
         service                   => 'test',
         syslocation               => 'at home',
@@ -120,31 +118,28 @@ describe 'Class secc_snmpd' do
         enforce_password_security => false,
       }
     EOS
-    }
 
-    it 'should run without errors' do
-      result = apply_manifest(manifest, :catch_failures => true)
+    it 'runs without errors' do
+      result = apply_manifest(manifest, catch_failures: true)
       expect(result.exit_code).to eq(2)
-      expect(result.output).to include 'Warning: use of SNMPv2 is not recommended!'
-      expect(result.output).to include "Warning: v2 community #{community}_localhost - Community must have 8 or more than 8 characters!"
-      expect(result.output).to include "Warning: v2 community #{community}_localhost - Community must contain [a-z],[A-Z],[0-9] characters and special characters!"
-     end
+      expect(result.stderr).to include 'Warning: use of SNMPv2 is not recommended!'
+      expect(result.stderr).to include "Warning: v2 community #{community}_localhost - Community must have 8 or more than 8 characters!"
+      expect(result.stderr).to include "Warning: v2 community #{community}_localhost - Community must contain [a-z],[A-Z],[0-9] characters and special characters!"
+    end
 
     # no re-run check, because constant error with wrong snmpv2
 
     describe file('/etc/snmp/snmpd.conf') do
-      its(:content) { is_expected.to include "rocommunity" }
+      its(:content) { is_expected.to include 'rocommunity' }
     end
-
   end
 
   context 'snmpv2 config with weak passwords and duplicate community' do
-    community = FFaker::String.from_regexp(/\w{6}/)
+    community = FFaker::String.from_regexp('\w{6}')
 
-    command("service snmpd stop")
+    command('service snmpd stop')
 
-    let(:manifest) {
-    <<-EOS
+    manifest = <<-EOS
       class { 'secc_snmpd':
         service                   => 'test',
         syslocation               => 'at home',
@@ -155,21 +150,20 @@ describe 'Class secc_snmpd' do
         v2_host                   => 'localhost',
         enforce_password_security => false,
       }
-      
+
       secc_snmpd::config::v2{ "#{community}_127.0.0.2":
         v2_community => '#{community}',
         v2_host      => '127.0.0.2',
       }
     EOS
-    }
 
-    it 'should run without errors' do
-      result = apply_manifest(manifest, :catch_failures => true)
+    it 'runs without errors' do
+      result = apply_manifest(manifest, catch_failures: true)
       expect(result.exit_code).to eq(2)
-      expect(result.output).to include 'Warning: use of SNMPv2 is not recommended!'
-      expect(result.output).to include "Warning: v2 community #{community}_localhost - Community must have 8 or more than 8 characters!"
-      expect(result.output).to include "Warning: v2 community #{community}_localhost - Community must contain [a-z],[A-Z],[0-9] characters and special characters!"
-     end
+      expect(result.stderr).to include 'Warning: use of SNMPv2 is not recommended!'
+      expect(result.stderr).to include "Warning: v2 community #{community}_localhost - Community must have 8 or more than 8 characters!"
+      expect(result.stderr).to include "Warning: v2 community #{community}_localhost - Community must contain [a-z],[A-Z],[0-9] characters and special characters!"
+    end
 
     # no re-run check, because constant error with wrong snmpv2
 
@@ -177,6 +171,5 @@ describe 'Class secc_snmpd' do
       its(:content) { is_expected.to include "rocommunity #{community} localhost" }
       its(:content) { is_expected.to include "rocommunity #{community} 127.0.0.2" }
     end
-
   end
 end
