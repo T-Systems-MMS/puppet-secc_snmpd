@@ -1,78 +1,106 @@
-# Change Log
+# Change log
+
+All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
+
+## [v2.1.0](https://github.com/T-Systems-MMS/puppet-secc_snmpd/tree/v2.1.0) (2019-10-18)
+
+[Full Changelog](https://github.com/T-Systems-MMS/puppet-secc_snmpd/compare/2.0.2...v2.1.0)
+
+### Added
+
+- add testing for CentOS8 and new puppet versions [\#14](https://github.com/T-Systems-MMS/puppet-secc_snmpd/pull/14) ([schurzi](https://github.com/schurzi))
 
 ## [2.0.2](https://github.com/T-Systems-MMS/puppet-secc_snmpd/tree/2.0.2) (2018-12-05)
 
 [Full Changelog](https://github.com/T-Systems-MMS/puppet-secc_snmpd/compare/2.0.1...2.0.2)
 
-**Merged pull requests:**
+### Added
 
-- added compatibility for xcp-ng to secc\_snmpd puppet module [\#13](https://github.com/T-Systems-MMS/puppet-secc_snmpd/pull/13) ([vmpr](https://github.com/vmpr))
+-  added compatibility for xcp-ng to secc\_snmpd puppet module [\#13](https://github.com/T-Systems-MMS/puppet-secc_snmpd/pull/13) ([vmpr](https://github.com/vmpr))
 - added XCP as valid operatingsystem [\#12](https://github.com/T-Systems-MMS/puppet-secc_snmpd/pull/12) ([vmpr](https://github.com/vmpr))
 
 ## [2.0.1](https://github.com/T-Systems-MMS/puppet-secc_snmpd/tree/2.0.1) (2018-11-06)
+
 [Full Changelog](https://github.com/T-Systems-MMS/puppet-secc_snmpd/compare/2.0.0...2.0.1)
 
-**Closed issues:**
+### Added
 
-- $::secc\_snmpd::enforce\_password\_security is not working anymore [\#4](https://github.com/T-Systems-MMS/puppet-secc_snmpd/issues/4)
-- README should be english [\#2](https://github.com/T-Systems-MMS/puppet-secc_snmpd/issues/2)
-
-**Merged pull requests:**
-
-- fixed typos [\#10](https://github.com/T-Systems-MMS/puppet-secc_snmpd/pull/10) ([szEvEz](https://github.com/szEvEz))
 - extend notify to allow for multiple user/community definitions [\#9](https://github.com/T-Systems-MMS/puppet-secc_snmpd/pull/9) ([schurzi](https://github.com/schurzi))
 - updated german documentation to english [\#8](https://github.com/T-Systems-MMS/puppet-secc_snmpd/pull/8) ([szEvEz](https://github.com/szEvEz))
 
+### Fixed
+
+- fixed typos [\#10](https://github.com/T-Systems-MMS/puppet-secc_snmpd/pull/10) ([szEvEz](https://github.com/szEvEz))
+
 ## [2.0.0](https://github.com/T-Systems-MMS/puppet-secc_snmpd/tree/2.0.0) (2018-09-26)
+
 [Full Changelog](https://github.com/T-Systems-MMS/puppet-secc_snmpd/compare/1.2.0...2.0.0)
 
-**Merged pull requests:**
+### Added
 
 - add github changelog generator and generated CL [\#7](https://github.com/T-Systems-MMS/puppet-secc_snmpd/pull/7) ([rndmh3ro](https://github.com/rndmh3ro))
-- fix incorrect usage of listen address [\#6](https://github.com/T-Systems-MMS/puppet-secc_snmpd/pull/6) ([rndmh3ro](https://github.com/rndmh3ro))
 - add listen addresses [\#3](https://github.com/T-Systems-MMS/puppet-secc_snmpd/pull/3) ([rndmh3ro](https://github.com/rndmh3ro))
 
+### Fixed
+
+- fix incorrect usage of listen address [\#6](https://github.com/T-Systems-MMS/puppet-secc_snmpd/pull/6) ([rndmh3ro](https://github.com/rndmh3ro))
+
 ## [1.2.0](https://github.com/T-Systems-MMS/puppet-secc_snmpd/tree/1.2.0) (2018-06-25)
+
 [Full Changelog](https://github.com/T-Systems-MMS/puppet-secc_snmpd/compare/1.1.0...1.2.0)
 
-**Merged pull requests:**
+### Fixed
 
 - removes warnings for "undefined variable" and deprecation on "validate\_bool" [\#1](https://github.com/T-Systems-MMS/puppet-secc_snmpd/pull/1) ([gunzl1ng3r](https://github.com/gunzl1ng3r))
 
 ## [1.1.0](https://github.com/T-Systems-MMS/puppet-secc_snmpd/tree/1.1.0) (2018-05-21)
+
 [Full Changelog](https://github.com/T-Systems-MMS/puppet-secc_snmpd/compare/1.0.13...1.1.0)
 
 ## [1.0.13](https://github.com/T-Systems-MMS/puppet-secc_snmpd/tree/1.0.13) (2017-01-13)
+
 [Full Changelog](https://github.com/T-Systems-MMS/puppet-secc_snmpd/compare/1.0.12...1.0.13)
 
 ## [1.0.12](https://github.com/T-Systems-MMS/puppet-secc_snmpd/tree/1.0.12) (2016-11-30)
+
 [Full Changelog](https://github.com/T-Systems-MMS/puppet-secc_snmpd/compare/1.0.11...1.0.12)
 
 ## [1.0.11](https://github.com/T-Systems-MMS/puppet-secc_snmpd/tree/1.0.11) (2016-09-21)
+
 [Full Changelog](https://github.com/T-Systems-MMS/puppet-secc_snmpd/compare/1.0.10...1.0.11)
 
 ## [1.0.10](https://github.com/T-Systems-MMS/puppet-secc_snmpd/tree/1.0.10) (2016-08-01)
+
 [Full Changelog](https://github.com/T-Systems-MMS/puppet-secc_snmpd/compare/1.0.9...1.0.10)
 
 ## [1.0.9](https://github.com/T-Systems-MMS/puppet-secc_snmpd/tree/1.0.9) (2016-07-06)
+
 [Full Changelog](https://github.com/T-Systems-MMS/puppet-secc_snmpd/compare/1.0.8...1.0.9)
 
 ## [1.0.8](https://github.com/T-Systems-MMS/puppet-secc_snmpd/tree/1.0.8) (2016-06-24)
+
 [Full Changelog](https://github.com/T-Systems-MMS/puppet-secc_snmpd/compare/1.0.7...1.0.8)
 
 ## [1.0.7](https://github.com/T-Systems-MMS/puppet-secc_snmpd/tree/1.0.7) (2016-06-23)
+
 [Full Changelog](https://github.com/T-Systems-MMS/puppet-secc_snmpd/compare/1.0.6...1.0.7)
 
 ## [1.0.6](https://github.com/T-Systems-MMS/puppet-secc_snmpd/tree/1.0.6) (2016-06-14)
+
 [Full Changelog](https://github.com/T-Systems-MMS/puppet-secc_snmpd/compare/1.0.5...1.0.6)
 
 ## [1.0.5](https://github.com/T-Systems-MMS/puppet-secc_snmpd/tree/1.0.5) (2016-05-30)
+
 [Full Changelog](https://github.com/T-Systems-MMS/puppet-secc_snmpd/compare/1.0.4...1.0.5)
 
 ## [1.0.4](https://github.com/T-Systems-MMS/puppet-secc_snmpd/tree/1.0.4) (2016-04-13)
+
 [Full Changelog](https://github.com/T-Systems-MMS/puppet-secc_snmpd/compare/1.0.3...1.0.4)
 
 ## [1.0.3](https://github.com/T-Systems-MMS/puppet-secc_snmpd/tree/1.0.3) (2016-04-05)
 
+[Full Changelog](https://github.com/T-Systems-MMS/puppet-secc_snmpd/compare/8e0a912cf27e906feebf0d2e3432264c15afca56...1.0.3)
 
-\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
+
+
+\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
