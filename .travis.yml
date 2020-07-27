@@ -46,7 +46,7 @@ matrix:
       - bundle exec rake 'litmus:install_agent[puppet5]'
       - bundle exec rake litmus:install_module
       script:
-      - bundle exec rake litmus:acceptance:parallel
+      - travis_wait 30 bundle exec rake litmus:acceptance:parallel
       services: docker
       sudo: required
     -
@@ -61,7 +61,7 @@ matrix:
       - bundle exec rake 'litmus:install_agent[puppet6]'
       - bundle exec rake litmus:install_module
       script:
-      - bundle exec rake litmus:acceptance:parallel
+      - travis_wait 30 bundle exec rake litmus:acceptance:parallel
       services: docker
       sudo: required
     -
