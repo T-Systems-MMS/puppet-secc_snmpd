@@ -34,7 +34,7 @@ group :development do
 end
 
 # fix bug in pry
-gem "pry-byebug", '>= 3.9.0'
+gem "pry", '< 0.13.0'
 
 puppet_version = ENV['PUPPET_GEM_VERSION']
 facter_version = ENV['FACTER_GEM_VERSION']
