@@ -33,8 +33,10 @@ group :development do
   gem "github_changelog_generator",                              require: false, git: 'https://github.com/skywinder/github-changelog-generator', ref: '20ee04ba1234e9e83eb2ffb5056e23d641c7a018' if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.2.2')
 end
 
-# fix bug in pry
+# pin pry to avoid bug
 gem "pry", '< 0.13.0'
+# pin bolt to avoid bug
+gem "bolt", '< 2.0.0'
 
 puppet_version = ENV['PUPPET_GEM_VERSION']
 facter_version = ENV['FACTER_GEM_VERSION']
